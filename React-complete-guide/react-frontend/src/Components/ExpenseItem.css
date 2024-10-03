@@ -1,0 +1,42 @@
+/* Importing fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Montserrat:wght@600&display=swap');
+
+.expense-item {
+    border: 1px solid #ddd; /* Light grey border for the expense item */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background color */
+    padding: 15px; /* Space inside the component */
+    margin-bottom: 15px; /* Space below each expense item */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex; /* Flexbox for alignment */
+    justify-content: space-between; /* Space out items horizontally */
+    align-items: center; /* Align items vertically in the center */
+    font-family: 'Roboto', sans-serif; /* Default font */
+}
+
+.expense-item__date {
+    font-size: 14px; /* Font size for the date */
+    color: #777; /* Slightly lighter grey for the date */
+    font-weight: 400; /* Normal weight */
+}
+
+.expense-item__description {
+    display: flex; /* Flexbox for alignment */
+    flex-direction: column; /* Stack elements vertically within this container */
+    margin-left: 20px; /* Space between date and description */
+    font-family: 'Montserrat', sans-serif; /* Font for description */
+}
+
+.expense-item__description h2 {
+    font-size: 20px; /* Larger font size for the name */
+    margin: 0; /* Remove default margin */
+    color: #333; /* Dark grey color for the name */
+    font-weight: 600; /* Semi-bold weight for emphasis */
+}
+
+.expense-item__price {
+    font-size: 18px; /* Font size for the price */
+    font-weight: 700; /* Bold weight for emphasis */
+    color: #000; /* Black color for the price */
+    margin-top: 5px; /* Space above the price */
+}
