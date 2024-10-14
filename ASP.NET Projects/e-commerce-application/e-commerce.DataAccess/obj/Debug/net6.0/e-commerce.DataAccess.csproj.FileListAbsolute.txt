@@ -1,0 +1,17 @@
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.DataAccess.deps.json
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.DataAccess.runtimeconfig.json
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.DataAccess.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\bin\Debug\net6.0\e-commerce.Models.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.csproj.AssemblyReference.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.AssemblyInfoInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.AssemblyInfo.cs
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.csproj.CopyComplete
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\refint\e-commerce.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\e-commerce.DataAccess.genruntimeconfig.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.DataAccess\obj\Debug\net6.0\ref\e-commerce.DataAccess.dll
