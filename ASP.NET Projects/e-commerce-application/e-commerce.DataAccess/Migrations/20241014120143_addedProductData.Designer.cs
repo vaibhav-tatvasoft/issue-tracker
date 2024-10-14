@@ -11,8 +11,8 @@ using e_commerce.DataAccess.Data;
 namespace e_commerce.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241014105036_productslist")]
-    partial class productslist
+    [Migration("20241014120143_addedProductData")]
+    partial class addedProductData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,30 @@ namespace e_commerce.DataAccess.Migrations
                             Id = 1,
                             DisplayOrder = "1",
                             Name = "something"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = "2",
+                            Name = "something1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = "3",
+                            Name = "something2"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DisplayOrder = "4",
+                            Name = "something3"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DisplayOrder = "5",
+                            Name = "something4"
                         });
                 });
 
@@ -64,6 +88,9 @@ namespace e_commerce.DataAccess.Migrations
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -91,6 +118,8 @@ namespace e_commerce.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
@@ -98,6 +127,7 @@ namespace e_commerce.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Robert C. Martin",
+                            CategoryId = 1,
                             Description = "A Handbook of Agile Software Craftsmanship",
                             ISBN = "9780132350884",
                             ListPrice = 50.0,
@@ -110,6 +140,7 @@ namespace e_commerce.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Andrew Hunt, David Thomas",
+                            CategoryId = 2,
                             Description = "Your Journey to Mastery",
                             ISBN = "9780135957059",
                             ListPrice = 60.0,
@@ -122,6 +153,7 @@ namespace e_commerce.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Martin Fowler",
+                            CategoryId = 4,
                             Description = "Improving the Design of Existing Code",
                             ISBN = "9780201485677",
                             ListPrice = 70.0,
@@ -130,6 +162,17 @@ namespace e_commerce.DataAccess.Migrations
                             Price50 = 60.0,
                             Title = "Refactoring"
                         });
+                });
+
+            modelBuilder.Entity("e_commerce.Models.Product", b =>
+                {
+                    b.HasOne("e_commerce.Models.Category", "category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("category");
                 });
 #pragma warning restore 612, 618
         }

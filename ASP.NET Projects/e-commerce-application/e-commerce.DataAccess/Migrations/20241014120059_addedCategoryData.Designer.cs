@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_commerce.DataAccess.Data;
 
@@ -10,9 +11,10 @@ using e_commerce.DataAccess.Data;
 namespace e_commerce.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241014120059_addedCategoryData")]
+    partial class addedCategoryData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,10 +100,6 @@ namespace e_commerce.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -123,50 +121,6 @@ namespace e_commerce.DataAccess.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Robert C. Martin",
-                            CategoryId = 1,
-                            Description = "A Handbook of Agile Software Craftsmanship",
-                            ISBN = "9780132350884",
-                            ImageUrl = "",
-                            ListPrice = 50.0,
-                            Price = 45.0,
-                            Price100 = 35.0,
-                            Price50 = 40.0,
-                            Title = "Clean Code"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Andrew Hunt, David Thomas",
-                            CategoryId = 2,
-                            Description = "Your Journey to Mastery",
-                            ISBN = "9780135957059",
-                            ImageUrl = "",
-                            ListPrice = 60.0,
-                            Price = 55.0,
-                            Price100 = 45.0,
-                            Price50 = 50.0,
-                            Title = "The Pragmatic Programmer"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Martin Fowler",
-                            CategoryId = 4,
-                            Description = "Improving the Design of Existing Code",
-                            ISBN = "9780201485677",
-                            ImageUrl = "",
-                            ListPrice = 70.0,
-                            Price = 65.0,
-                            Price100 = 55.0,
-                            Price50 = 60.0,
-                            Title = "Refactoring"
-                        });
                 });
 
             modelBuilder.Entity("e_commerce.Models.Product", b =>

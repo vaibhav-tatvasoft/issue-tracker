@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_commerce.Models
 {
@@ -16,7 +17,7 @@ namespace e_commerce.Models
         [Required]
         public string Author { get; set; }
         [Required]
-        [Range(1,1000)]
+        [Range(1, 1000)]
         [DisplayName("List Price")]
         public double ListPrice { get; set; }
         [Required]
@@ -27,7 +28,11 @@ namespace e_commerce.Models
         public double Price50 { get; set; }
         [Required]
         [DisplayName("Price for 100+")]
-        public double Price100 { get; set;}
+        public double Price100 { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category category { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }

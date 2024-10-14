@@ -17,7 +17,12 @@ namespace e_commerce.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "something", DisplayOrder = "1" });
+                new Category { Id = 1, Name = "something", DisplayOrder = "1" },
+                new Category { Id = 2, Name = "something1", DisplayOrder = "2" },
+                new Category { Id = 3, Name = "something2", DisplayOrder = "3" },
+                new Category { Id = 4, Name = "something3", DisplayOrder = "4" },
+                new Category { Id = 5, Name = "something4", DisplayOrder = "5" }
+                );
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
@@ -29,7 +34,9 @@ namespace e_commerce.DataAccess.Data
                     ListPrice = 50.00,
                     Price = 45.00,
                     Price50 = 40.00,
-                    Price100 = 35.00
+                    Price100 = 35.00,
+                    CategoryId = 1,
+                    ImageUrl = ""
                 },
             new Product
             {
@@ -41,7 +48,9 @@ namespace e_commerce.DataAccess.Data
                 ListPrice = 60.00,
                 Price = 55.00,
                 Price50 = 50.00,
-                Price100 = 45.00
+                Price100 = 45.00,
+                CategoryId = 2,
+                ImageUrl = ""
             },
             new Product
             {
@@ -53,7 +62,9 @@ namespace e_commerce.DataAccess.Data
                 ListPrice = 70.00,
                 Price = 65.00,
                 Price50 = 60.00,
-                Price100 = 55.00
+                Price100 = 55.00,
+                CategoryId = 4,
+                ImageUrl = ""
             });
         }
     }
