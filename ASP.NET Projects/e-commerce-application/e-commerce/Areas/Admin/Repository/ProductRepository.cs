@@ -23,7 +23,7 @@ namespace e_commerce.Areas.Admin.Repository
             _context.SaveChanges();
         }
 
-        public List<Product> GetAllCategories()
+        public List<Product> GetAllProducts()
         {
             return _context.Products.ToList();
         }
@@ -46,6 +46,6 @@ namespace e_commerce.Areas.Admin.Repository
         public void UpdateProduct(Product product);
         public void DeleteProduct(int id);
         public Product GetProductById(int id);
-        public List<Product> GetAllCategories();
+        public List<Product> GetAllProducts();
     }
 }

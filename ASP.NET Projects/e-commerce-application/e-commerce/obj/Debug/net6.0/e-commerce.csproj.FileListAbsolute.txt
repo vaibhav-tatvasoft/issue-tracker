@@ -251,3 +251,16 @@ C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\obj\De
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\obj\Debug\net6.0\e-commerce.pdb
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\obj\Debug\net6.0\e-commerce.genruntimeconfig.cache
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\obj\Debug\net6.0\ref\e-commerce.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\obj\Debug\net6.0\e-commerce.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.Mvc.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

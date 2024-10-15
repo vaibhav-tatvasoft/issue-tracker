@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3XCiFobGPqS/qZeBGxqR2a+2G4Xhdt8bi45KZj9V6Vo=",
+  "Hash": "2PXHMTGNhSiNvuZSR9bnidT1+5ybob1h9LkT6z998Rs=",
   "Source": "e-commerce",
   "BasePath": "_content/e-commerce",
   "Mode": "Default",
@@ -83,6 +83,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png",
+      "SourceId": "e-commerce",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\",
+      "BasePath": "_content/e-commerce",
+      "RelativePath": "images/product/13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png"
+    },
+    {
+      "Identity": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png",
+      "SourceId": "e-commerce",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\",
+      "BasePath": "_content/e-commerce",
+      "RelativePath": "images/product/df34cfc9-ee41-484e-8419-3ee5955b2a6c.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png"
     },
     {
       "Identity": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\site.js",

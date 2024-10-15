@@ -9,3 +9,4 @@ C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Models
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Models\obj\Debug\net6.0\refint\e-commerce.Models.dll
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Models\obj\Debug\net6.0\e-commerce.Models.pdb
 C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Models\obj\Debug\net6.0\ref\e-commerce.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Models\obj\Debug\net6.0\e-commerce.Models.csproj.AssemblyReference.cache

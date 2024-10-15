@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png",
+      "PackagePath": "staticwebassets\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png"
+    },
+    {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png",
+      "PackagePath": "staticwebassets\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png"
+    },
+    {
       "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
