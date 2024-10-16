@@ -20,6 +20,7 @@
             <div class="col-10">
                 <div class="mb-3">
                     <input type="hidden" asp-for="product.Id">
+                    <input type="hidden" asp-for="product.ImageUrl" />
                     <label asp-for="product.Title">
                         Product Title
                     </label>
@@ -82,29 +83,19 @@
                         <option disabled selected>---select option---</option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label asp-for="product.ImageUrl">
+                        Image Upload
+                    </label>
+                    <input type="file" name="file" asp-for="product.ImageUrl" class="form-control">
+                    <span asp-validation-for="product.ImageUrl" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-2">
-               
-                    <div class="mb-3">
-                    @if (Model.product.Id == null)
-                    {
-                        <label asp-for="product.ImageUrl">
-                            Product Image
-                        </label>
-                        <input type="file" name="file" asp-for="product.ImageUrl" class="form-control" />
-                    }
-                    else
-                    {
-                        <label asp-for="product.ImageUrl">
-                           Product Image
-                        </label>
-                        <img src="/@Model.product.ImageUrl" type="file" name="file" asp-for="product.ImageUrl" class="form-control" />
-                    }
-
-                    </div>
-
-                    
-
+                <div class="mb-3">
+                    <label>Product Image</label>
+                    <img src="/@(Model.product.ImageUrl)" class="img-thumbnail shadow-sm rounded" style="width: 150px; height: 225px; object-fit: cover;" />
+                </div>
             </div>
         </div>
 

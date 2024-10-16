@@ -13,12 +13,36 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\04aa4730-ed10-43f0-9131-5dde6cfb7476.png",
+      "PackagePath": "staticwebassets\\images\\product\\04aa4730-ed10-43f0-9131-5dde6cfb7476.png"
+    },
+    {
       "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png",
       "PackagePath": "staticwebassets\\images\\product\\13ca9dea-ed7a-4095-bbb4-826878ceb8f5.png"
     },
     {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\61a03c2a-93e3-402e-9e0b-daf138cb279e.png",
+      "PackagePath": "staticwebassets\\images\\product\\61a03c2a-93e3-402e-9e0b-daf138cb279e.png"
+    },
+    {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\6a3fc374-fd29-4517-96ef-638c1a3163b0.png",
+      "PackagePath": "staticwebassets\\images\\product\\6a3fc374-fd29-4517-96ef-638c1a3163b0.png"
+    },
+    {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\8ca8ff84-605d-499e-a4ef-674d8ebda487.png",
+      "PackagePath": "staticwebassets\\images\\product\\8ca8ff84-605d-499e-a4ef-674d8ebda487.png"
+    },
+    {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\8fb0b972-af77-4217-813a-06328c568430.png",
+      "PackagePath": "staticwebassets\\images\\product\\8fb0b972-af77-4217-813a-06328c568430.png"
+    },
+    {
       "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png",
       "PackagePath": "staticwebassets\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png"
+    },
+    {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\product.js",
+      "PackagePath": "staticwebassets\\js\\product.js"
     },
     {
       "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\site.js",

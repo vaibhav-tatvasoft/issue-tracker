@@ -1,5 +1,6 @@
 ﻿using e_commerce.DataAccess.Data;
 using e_commerce.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_commerce.Areas.Admin.Repository
 {
@@ -9,6 +10,7 @@ namespace e_commerce.Areas.Admin.Repository
         public ProductRepository(ApplicationDbContext context)
         {
             _context=context;
+            _context.Products.Include(x => x.category);
         }
         public void CreateProduct(Product product)
         {
@@ -23,14 +25,32 @@ namespace e_commerce.Areas.Admin.Repository
             _context.SaveChanges();
         }
 
-        public List<Product> GetAllProducts()
+        public List<Product> GetAllProducts(string? includeProperties = null)
         {
-            return _context.Products.ToList();
+            IQueryable<Product> query = _context.Products;
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+            return query.ToList();
         }
 
-        public Product GetProductById(int id)
+        public Product GetProductById(int id, string? includeProperties = null)
         {
-            Product? product = _context.Products.FirstOrDefault(p => p.Id == id);
+            IQueryable<Product> query = _context.Products;
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty); // Keep adding Includes to the query
+                }
+            }
+            Product? product = query.FirstOrDefault(p => p.Id == id);
             return product;
         }
 
@@ -45,7 +65,7 @@ namespace e_commerce.Areas.Admin.Repository
         public void CreateProduct(Product product);
         public void UpdateProduct(Product product);
         public void DeleteProduct(int id);
-        public Product GetProductById(int id);
-        public List<Product> GetAllProducts();
+        public Product GetProductById(int id, string? includeProperties = null);
+        public List<Product> GetAllProducts(string? includeProperties = null);
     }
 }

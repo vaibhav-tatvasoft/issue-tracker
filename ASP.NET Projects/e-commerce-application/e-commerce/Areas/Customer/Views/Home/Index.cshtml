@@ -1,8 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Product>
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded" style="height: 100%; min-height: 500px;">
+                        @if (product.ImageUrl != null && product.ImageUrl.Count() > 0)
+                        {
+                            <img src="@product.ImageUrl" class="card-img-top rounded" style="width: 200px; height: 300px; object-fit: cover; margin: 0 auto;" />
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/200x300/png" class="card-img-top rounded" style="width: 200px; height: 300px; object-fit: cover; margin: 0 auto;" />
+                        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-light opacity-75 text-uppercase text-center"
+                                   style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @product.Title
+                                </p>
+                                <p class="card-title text-warning text-center"
+                                   style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    by <b>@product.Author</b>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-light text-opacity-75 text-center mb-0">
+                                    List Price:
+                                    <span class="text-decoration-line-through">
+                                        @product.ListPrice.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-light text-opacity-75 text-center">
+                                    As low as:
+                                    <span>
+                                        @product.Price100.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-action="Details"
+                               asp-route-productId="@product.Id"
+                               class="btn btn-primary bg-gradient border-0 form-control">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+

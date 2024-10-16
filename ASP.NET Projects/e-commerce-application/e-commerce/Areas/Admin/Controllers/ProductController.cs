@@ -3,6 +3,7 @@ using e_commerce.Models;
 using e_commerce.Models.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_commerce.Areas.Admin.Controllers
 {
@@ -22,7 +23,7 @@ namespace e_commerce.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            List<Product> productList = _productRepository.GetAllProducts();
+            List<Product> productList = _productRepository.GetAllProducts(includeProperties: "category");
             return View(productList);
         }
 
@@ -59,22 +60,32 @@ namespace e_commerce.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(ProductVM productvm, IFormFile file)
         {
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
-                if(productvm.product.Id == null)
-                {
-                    string wwwRootPath = _webHostEnvironment.WebRootPath;
-                    if (file != null)
-                    {
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string productPath = Path.Combine(wwwRootPath, @"images\product");
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string productPath = Path.Combine(wwwRootPath, @"images\product");
 
-                        using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                if (file != null)
+                {
+                    if (!string.IsNullOrEmpty(productvm.product.ImageUrl))
+                    {
+                        string oldProductPath = Path.Combine(wwwRootPath, productvm.product.ImageUrl);
+                        if (System.IO.File.Exists(oldProductPath))
                         {
-                            file.CopyTo(fileStream);
+                            System.IO.File.Delete(oldProductPath);
                         }
-                        productvm.product.ImageUrl = @"images\product/" + fileName;
                     }
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    productvm.product.ImageUrl = @"images\product/" + fileName;
+
+                }
+                if (productvm.product.Id == null)
+                {
+
                     _productRepository.CreateProduct(productvm.product);
                     TempData["success"] = "Product created successfully";
                 }
@@ -88,31 +99,6 @@ namespace e_commerce.Areas.Admin.Controllers
             return View(productvm);
         }
 
-        //public IActionResult Edit(int id)
-        //{
-        //    if (id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    Product? product = _productRepository.GetProductById(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(product);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Edit(Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _productRepository.UpdateProduct(product);
-        //        TempData["success"] = "Product updated successfully";
-        //        return RedirectToAction("Index", "Product");
-        //    }
-        //    return View();
-        //}
         public IActionResult Delete(int id)
         {
             if (id == 0)
@@ -143,5 +129,14 @@ namespace e_commerce.Areas.Admin.Controllers
             }
             return View();
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Product> productList = _productRepository.GetAllProducts(includeProperties: "category");
+            return Json(new { data = productList });
+        }
+        #endregion
     }
 }
