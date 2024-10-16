@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\images\\product\\df34cfc9-ee41-484e-8419-3ee5955b2a6c.png"
     },
     {
+      "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\company.js",
+      "PackagePath": "staticwebassets\\js\\company.js"
+    },
+    {
       "Id": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce\\wwwroot\\js\\product.js",
       "PackagePath": "staticwebassets\\js\\product.js"
     },
