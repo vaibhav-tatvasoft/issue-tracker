@@ -1,6 +1,8 @@
 ﻿using e_commerce.Areas.Admin.Repository;
 using e_commerce.Models;
 using e_commerce.Models.Models.ViewModels;
+using e_commerce.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace e_commerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;

@@ -1,10 +1,13 @@
 ﻿using e_commerce.Areas.Admin.Repository;
 using e_commerce.Models;
+using e_commerce.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;

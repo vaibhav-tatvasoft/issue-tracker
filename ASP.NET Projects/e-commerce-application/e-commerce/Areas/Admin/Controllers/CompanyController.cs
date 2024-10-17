@@ -4,10 +4,13 @@ using e_commerce.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using e_commerce.Models.Models;
+using Microsoft.AspNetCore.Authorization;
+using e_commerce.Utility;
 
 namespace e_commerce.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CompanyController : Controller
     {
         private readonly ICompanyRepository _companyRepository;

@@ -1,0 +1,11 @@
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\bin\Debug\net6.0\e-commerce.Utility.deps.json
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\bin\Debug\net6.0\e-commerce.Utility.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\bin\Debug\net6.0\e-commerce.Utility.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.AssemblyInfoInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.AssemblyInfo.cs
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.csproj.CoreCompileInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\refint\e-commerce.Utility.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\e-commerce.Utility.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\e-commerce-application\e-commerce.Utility\obj\Debug\net6.0\ref\e-commerce.Utility.dll

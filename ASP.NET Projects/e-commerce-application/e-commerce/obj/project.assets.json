@@ -4923,14 +4923,26 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Microsoft.AspNet.Mvc": "5.3.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.35",
           "Microsoft.AspNetCore.Mvc": "2.2.0",
-          "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
+          "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
+          "Microsoft.Extensions.Identity.Stores": "6.0.35"
         },
         "compile": {
           "bin/placeholder/e-commerce.Models.dll": {}
         },
         "runtime": {
           "bin/placeholder/e-commerce.Models.dll": {}
+        }
+      },
+      "e-commerce.Utility/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/e-commerce.Utility.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/e-commerce.Utility.dll": {}
         }
       }
     }
@@ -12871,6 +12883,11 @@
       "type": "project",
       "path": "../e-commerce.Models/e-commerce.Models.csproj",
       "msbuildProject": "../e-commerce.Models/e-commerce.Models.csproj"
+    },
+    "e-commerce.Utility/1.0.0": {
+      "type": "project",
+      "path": "../e-commerce.Utility/e-commerce.Utility.csproj",
+      "msbuildProject": "../e-commerce.Utility/e-commerce.Utility.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -12883,7 +12900,8 @@
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.35",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.18",
       "e-commerce.DataAccess >= 1.0.0",
-      "e-commerce.Models >= 1.0.0"
+      "e-commerce.Models >= 1.0.0",
+      "e-commerce.Utility >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -12918,6 +12936,9 @@
             },
             "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce.Models\\e-commerce.Models.csproj": {
               "projectPath": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce.Models\\e-commerce.Models.csproj"
+            },
+            "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce.Utility\\e-commerce.Utility.csproj": {
+              "projectPath": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\e-commerce-application\\e-commerce.Utility\\e-commerce.Utility.csproj"
             }
           }
         }

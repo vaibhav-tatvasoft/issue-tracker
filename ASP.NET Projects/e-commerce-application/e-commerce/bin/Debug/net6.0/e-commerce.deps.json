@@ -16,7 +16,8 @@
           "Microsoft.EntityFrameworkCore.Tools": "6.0.35",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.18",
           "e-commerce.DataAccess": "1.0.0",
-          "e-commerce.Models": "1.0.0"
+          "e-commerce.Models": "1.0.0",
+          "e-commerce.Utility": "1.0.0"
         },
         "runtime": {
           "e-commerce.dll": {}
@@ -3132,11 +3133,18 @@
       "e-commerce.Models/1.0.0": {
         "dependencies": {
           "Microsoft.AspNet.Mvc": "5.3.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.35",
           "Microsoft.AspNetCore.Mvc": "2.2.0",
-          "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
+          "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
+          "Microsoft.Extensions.Identity.Stores": "6.0.35"
         },
         "runtime": {
           "e-commerce.Models.dll": {}
+        }
+      },
+      "e-commerce.Utility/1.0.0": {
+        "runtime": {
+          "e-commerce.Utility.dll": {}
         }
       }
     }
@@ -5113,6 +5121,11 @@
       "sha512": ""
     },
     "e-commerce.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "e-commerce.Utility/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
