@@ -47,6 +47,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy" asp-area="Customer">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index" asp-area="Customer">
+                                <i class="bi bi-cart4">(0)</i>
+                            </a>
+                         </li>
                             @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">

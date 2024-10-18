@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace e_commerce.Models.Models
+namespace e_commerce.Models
 {
     public class ApplicationUser : IdentityUser
     {
