@@ -1,9 +1,7 @@
 ﻿using e_commerce.DataAccess.Data;
 using e_commerce.Models;
-using e_commerce.Models.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 
 namespace e_commerce.Areas.Admin.Repository
 {

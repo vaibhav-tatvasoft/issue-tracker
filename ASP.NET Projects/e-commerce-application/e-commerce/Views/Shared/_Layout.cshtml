@@ -52,6 +52,9 @@
                                 <i class="bi bi-cart4">(0)</i>
                             </a>
                          </li>
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Order" asp-action="Index" asp-area="Admin">My Orders</a>
+                         </li>
                             @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
