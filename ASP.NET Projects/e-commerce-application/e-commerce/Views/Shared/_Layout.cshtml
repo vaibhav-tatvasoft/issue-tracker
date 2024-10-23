@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/e_commerce.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" />
 
     <style>
@@ -32,7 +33,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary-subtle border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">e_commerce</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -42,30 +43,30 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Customer">Home</a>
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index" asp-area="Customer">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy" asp-area="Customer">Privacy</a>
+                            <a class="nav-link text-light" asp-controller="Home" asp-action="Privacy" asp-area="Customer">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index" asp-area="Customer">
-                                <i class="bi bi-cart4">(0)</i>
+                            <a class="nav-link text-light" asp-controller="Cart" asp-action="Index" asp-area="Customer">
+                                <i class="bi bi-cart4"></i>
                             </a>
-                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Order" asp-action="Index" asp-area="Admin">My Orders</a>
-                         </li>
-                            @if (User.IsInRole(SD.Role_Admin))
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Order" asp-action="Index" asp-area="Admin">My Orders</a>
+                        </li>
+                        @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle bg-primary" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Content Management
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li class="nav-item">
-                                        <a class="nav-link text-light" asp-controller="Category" asp-action="Index" asp-area="Admin">Category</a>
-                                        <a class="nav-link text-light" asp-controller="Product" asp-action="Index" asp-area="Admin">Product</a>
-                                        <a class="nav-link text-light" asp-controller="Company" asp-action="Index" asp-area="Admin">Company</a>
+                                        <a class="nav-link text-dark" asp-controller="Category" asp-action="Index" asp-area="Admin">Category</a>
+                                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Index" asp-area="Admin">Product</a>
+                                        <a class="nav-link text-dark" asp-controller="Company" asp-action="Index" asp-area="Admin">Company</a>
                                     </li>
                                 </ul>
                             </li>

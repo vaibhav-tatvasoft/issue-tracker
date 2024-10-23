@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<Product>
+@using System.Globalization
+@{
+    CultureInfo usCulture = new CultureInfo("en-US");
+}
 <div class="row pb-3">
     @foreach (var product in Model)
     {
@@ -17,7 +21,7 @@
 
                         <div class="card-body pb-0">
                             <div class="pl-1">
-                                <p class="card-title h5 text-light opacity-75 text-uppercase text-center"
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center"
                                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     @product.Title
                                 </p>
@@ -27,18 +31,18 @@
                                 </p>
                             </div>
                             <div class="pl-1">
-                                <p class="text-light text-opacity-75 text-center mb-0">
+                                <p class="text-dark text-opacity-75 text-center mb-0">
                                     List Price:
                                     <span class="text-decoration-line-through">
-                                        @product.ListPrice.ToString("c")
+                                        @product.ListPrice.ToString("C", usCulture)
                                     </span>
                                 </p>
                             </div>
                             <div class="pl-1">
-                                <p class="text-light text-opacity-75 text-center">
+                                <p class="text-dark text-opacity-75 text-center">
                                     As low as:
                                     <span>
-                                        @product.Price100.ToString("c")
+                                        @product.Price100.ToString("C", usCulture)
                                     </span>
                                 </p>
                             </div>
