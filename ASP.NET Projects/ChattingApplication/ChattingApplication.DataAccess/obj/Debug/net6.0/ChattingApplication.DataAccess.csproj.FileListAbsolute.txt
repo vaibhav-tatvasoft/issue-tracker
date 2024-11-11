@@ -1,0 +1,17 @@
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.DataAccess.deps.json
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.DataAccess.runtimeconfig.json
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.DataAccess.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.csproj.AssemblyReference.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.AssemblyInfoInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.AssemblyInfo.cs
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\refint\ChattingApplication.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.genruntimeconfig.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ref\ChattingApplication.DataAccess.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\bin\Debug\net6.0\ChattingApplication.Models.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.DataAccess\obj\Debug\net6.0\ChattingApplication.DataAccess.csproj.CopyComplete

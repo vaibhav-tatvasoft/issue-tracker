@@ -1,0 +1,11 @@
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\bin\Debug\net6.0\ChattingApplication.Models.deps.json
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\bin\Debug\net6.0\ChattingApplication.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\bin\Debug\net6.0\ChattingApplication.Models.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.AssemblyInfoInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.AssemblyInfo.cs
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.csproj.CoreCompileInputs.cache
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\refint\ChattingApplication.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.pdb
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ref\ChattingApplication.Models.dll
