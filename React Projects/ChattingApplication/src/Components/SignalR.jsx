@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import * as signalR from "@microsoft/signalr";
 import "./SignalR.css";
+import VerticalNavBar from "./VerticalNavBar";
+import ChatPreview from "./ChatPreview";
 
 const SignalR = () => {
   const [outMessages, setOutMessages] = useState([]);
@@ -9,6 +11,7 @@ const SignalR = () => {
   const [outMessage, setOutMessage] = useState("");
   const [conn, setConn] = useState({});
   const [messageType, setMessageType] = useState([]);
+  const [clientData, setClientData] = useState({});
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
@@ -16,6 +19,11 @@ const SignalR = () => {
       .build();
 
     setConn(connection);
+
+    connection.on("ReceiveAllClientsList", (data) => {
+      setClientData(data);
+      console.log(`Incoming connected clients from hub:  ${data}`);
+    });
 
     connection.on("ReceiveMessage", (fromUser, chat) => {
       console.log(`Incoming Message from client/hub ${fromUser} : ${chat}`);
@@ -38,7 +46,10 @@ const SignalR = () => {
     async function start() {
       try {
         await connection.start();
+
         console.log("connection successful");
+        console.log("Requesting list of all clients from hub...");
+        connection.invoke("SendAllClientsList");
       } catch (error) {
         console.log("connection failure :" + error);
       }
@@ -57,6 +68,32 @@ const SignalR = () => {
       .catch((err) => console.error(err));
   }
 
+  // const GetAllClients = async () => {
+  //   if (conn && conn.state === signalR.HubConnectionState.Connected) {
+  //     try {
+  //       console.log("Requesting list of all clients from hub...");
+  //       await conn.invoke("SendAllClientsList");
+  //     } catch (error) {
+  //       console.error("Error fetching all clients:", error);
+  //     }
+  //   } else {
+  //     console.warn("Connection is not ready to invoke methods.");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (conn) {
+  //     GetAllClients();
+  //   }
+  // }, [conn]);
+  useEffect(() => {
+    if (clientData && Object.keys(clientData).length > 0) {
+      Object.entries(clientData).forEach(([key, value]) => {
+        console.log(`Connection ID: ${key}, UserIdentifier: ${value}`);
+      });
+    }
+  }, [clientData]);
+
   useEffect(() => {
     console.log(`Incoming message : ${JSON.stringify(inMessages)}`);
   }, [inMessages]);
@@ -73,80 +110,8 @@ const SignalR = () => {
     <div id="webcrumbs">
       <div className="w-full min-h-screen bg-black flex">
         {" "}
-        {/* Vertical Navbar */}{" "}
-        <aside className="bg-neutral-700 w-[80px] min-h-screen flex flex-col items-center p-4 gap-6">
-          <i className="fa-brands fa-facebook text-teal-500 text-3xl"></i>
-          <i className="material-symbols-outlined text-neutral-50 text-3xl">
-            home
-          </i>
-          <i className="material-symbols-outlined text-neutral-50 text-3xl">
-            chat
-          </i>
-          <i className="material-symbols-outlined text-neutral-50 text-3xl">
-            settings
-          </i>
-        </aside>
-        <aside className="bg-neutral-800 min-h-screen p-4 resize-l overflow-auto w-[250px]">
-          {/* Searchbar */}
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full p-2 bg-neutral-700 text-neutral-300 border-none rounded-md focus:ring-2 focus:ring-teal-400"
-            />
-          </div>
-
-          <ul className="flex flex-col gap-2">
-            {/* Chat preview item - John Doe */}
-            <li className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]">
-              <img
-                src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/1"
-                alt="User"
-                className="rounded-full w-[40px] h-[40px] object-cover"
-              />
-              <div className="flex flex-col justify-center">
-                <p className="text-neutral-300 text-sm font-bold">John Doe</p>
-                <span className="text-xs text-neutral-400 whitespace-nowrap overflow-hidden text-ellipsis w-[180px]">
-                  Hey, can we discuss the meeting agenda?
-                </span>
-              </div>
-            </li>
-            <hr className="border-neutral-600" />
-
-            {/* Chat preview item - Jane Smith */}
-            <li className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]">
-              <img
-                src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/2"
-                alt="User"
-                className="rounded-full w-[40px] h-[40px] object-cover"
-              />
-              <div className="flex flex-col justify-center">
-                <p className="text-neutral-300 text-sm font-bold">Jane Smith</p>
-                <span className="text-xs text-neutral-400 whitespace-nowrap overflow-hidden text-ellipsis w-[180px]">
-                  Sure, I'll get that fixed for you...
-                </span>
-              </div>
-            </li>
-            <hr className="border-neutral-600" />
-
-            {/* Chat preview item - Alice Cooper */}
-            <li className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]">
-              <img
-                src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/3"
-                alt="User"
-                className="rounded-full w-[40px] h-[40px] object-cover"
-              />
-              <div className="flex flex-col justify-center">
-                <p className="text-neutral-300 text-sm font-bold">
-                  Alice Cooper
-                </p>
-                <span className="text-xs text-neutral-400 whitespace-nowrap overflow-hidden text-ellipsis w-[180px]">
-                  Thank you for the help!...
-                </span>
-              </div>
-            </li>
-          </ul>
-        </aside>
+        {/* Vertical Navbar */} <VerticalNavBar />
+        <ChatPreview clientData = {clientData} connContext = {conn}/>
         {/* Main Chat Section */}
         <div className="w-full min-h-screen bg-neutral-900 shadow-md flex flex-col">
           <header className="bg-neutral-700 p-4 text-neutral-50 flex items-center">

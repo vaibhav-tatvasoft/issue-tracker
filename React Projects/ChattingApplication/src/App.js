@@ -1,12 +1,16 @@
 import React from "react";
 import SignalR from "./Components/SignalR";
+import UserRegistration from "./Components/UserRegistration"
 
 /* Don't forget to download the CSS file too 
 OR remove the following line if you're already using Tailwind */
 
 export default function App () {
   return (
-    <SignalR />
+    <div>
+      {/* <UserRegistration /> */}
+      <SignalR />
+    </div>
     // <div id="webcrumbs">
     //   <div className="w-full bg-neutral-800 rounded-lg flex">
     //     {" "}
