@@ -4,6 +4,13 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace SignalRConsoleClient
 {
+    class Message
+    {
+        public string content { get; set; }
+        public string timestamp { get; set; }
+        public string to { get; set; }
+        public string from { get; set; }
+    }
     class Program
     {
         private static HubConnection connection;
@@ -21,7 +28,7 @@ namespace SignalRConsoleClient
 
 
             // Define what happens when a message is received
-            connection.On<string, string>("ReceiveMessage", (user, message) =>
+            connection.On<string, Object>("ReceiveMessage", (user, message) =>
             {
                 Console.WriteLine($"{user}: {message}");
             });
@@ -59,9 +66,16 @@ namespace SignalRConsoleClient
 
         private static async Task SendMessage(string user, string message)
         {
+            Message messageObj = new Message
+            {
+                content = message,
+                timestamp = DateTime.Now.ToString(),
+                to = "vaibhav",
+                from = user
+            };
             try
             {
-                await connection.InvokeAsync("SendMessage","vaibhav", message);
+                await connection.InvokeAsync("SendMessage","vaibhav", messageObj);
                 Console.WriteLine($"Sent to vaibhav from : {user} : {message}");
             }
             catch (Exception ex)
