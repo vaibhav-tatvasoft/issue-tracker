@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ChatPreview = ({ clientData , connContext}) => {
+const ChatPreview = ({ clientData, connContext, sendSelectedUser }) => {
+  const [clickedUser, setClickedUser] = useState({});
+
+  const handleButtonClicked = ({key, value}) => {
+    sendSelectedUser({key, value});
+  };
+
   return (
     <div>
       <aside className="bg-neutral-800 min-h-screen p-4 resize-l overflow-auto w-[250px]">
@@ -16,23 +22,33 @@ const ChatPreview = ({ clientData , connContext}) => {
         <ul className="flex flex-col gap-2">
           {Object.entries(clientData).map(([key, value], index) => {
             return (
-              <li key={key} className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]">
+              <li
+                key={key}
+                className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]"
+                onClick={() => {
+                  //setClickedUser({ key, value });
+                  handleButtonClicked({ key, value });
+                }}
+              >
                 <img
                   src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/1"
                   alt="User"
                   className="rounded-full w-[40px] h-[40px] object-cover"
                 />
                 <div className="flex flex-col justify-center">
-                  <p className="text-neutral-300 text-sm font-bold">{key === connContext.ConnectionId ? `${value} (You)` : value}</p>
+                  <p className="text-neutral-300 text-sm font-bold">
+                    {key === connContext.connectionId
+                      ? `${value} (You)`
+                      : value}
+                  </p>
                   <span className="text-xs text-neutral-400 whitespace-nowrap overflow-hidden text-ellipsis w-[180px]">
                     Hey, can we discuss the meeting agenda?
                   </span>
                 </div>
+                <hr className="border-neutral-600" />
               </li>
             );
           })}
-
-          <hr className="border-neutral-600" />
         </ul>
       </aside>
     </div>

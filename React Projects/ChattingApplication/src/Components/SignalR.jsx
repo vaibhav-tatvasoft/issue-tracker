@@ -9,32 +9,58 @@ const SignalR = () => {
   const [outMessages, setOutMessages] = useState([]);
   const [inMessages, setInMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
-  const [conn, setConn] = useState({});
-  const [messageType, setMessageType] = useState([]);
-  const [clientData, setClientData] = useState({});
+  const [conn, setConn] = useState({}); //{connection object}
+  const [messageType, setMessageType] = useState([]); //{type, data}
+  const [clientData, setClientData] = useState({}); // {ConnectionId, UserIdentifier}
+  const [userId, setUserId] = useState("");
+  const [incomingMessageObject, setIncomingMessageObject] = useState({}); //{content, timestamp, to, from}
+  const [selectedUserFromChild, setSelectedUserFromChild] = useState({ value: '' }); // {ConnectionId, UserIdentifier} from ChatPreview.jsx
+
+  const fetchClickedUserFromChild = ({key, value}) => {
+    setSelectedUserFromChild({key, value});
+  };
 
   useEffect(() => {
+    console.log("🚀 ~ SignalR ~ selectedUserFromChild:", selectedUserFromChild);
+  }, [selectedUserFromChild]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("🚀 ~ useEffect ~ urlParams:", urlParams.get("userId"));
+    const uid = urlParams.get("userId");
+
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7219/realtimehub?userId=vaibhav")
+      .withUrl(`https://localhost:7219/realtimehub?userId=${uid}`)
       .build();
 
     setConn(connection);
 
     connection.on("ReceiveAllClientsList", (data) => {
+      console.log(
+        "🚀 ~ connection.on ReceiveAllClientsList ~ data:",
+        JSON.stringify(data)
+      );
       setClientData(data);
-      console.log(`Incoming connected clients from hub:  ${data}`);
+      //console.log(`Incoming connected clients from hub:  ${JSON.stringify(data)}`);
     });
 
-    connection.on("ReceiveMessage", (fromUser, chat) => {
-      console.log(`Incoming Message from client/hub ${fromUser} : ${chat}`);
+    connection.on("ReceiveMessage", (fromUser, messageObject) => {
+      console.log(
+        "🚀 ~ connection.on ReceiveMessage ~ fromUser, messageObject:",
+        fromUser,
+        JSON.stringify(messageObject)
+      );
+      //console.log(`Incoming Message from client/hub ${fromUser} : ${JSON.stringify(messageObject)}`);
 
-      setInMessages((prevMessage) => [...prevMessage, chat]);
+      setIncomingMessageObject(messageObject);
+
+      setInMessages((prevMessage) => [...prevMessage, messageObject.content]);
 
       setMessageType((prevState) => [
         ...prevState,
         {
           type: "incoming",
-          data: chat,
+          data: messageObject.content,
         },
       ]);
     });
@@ -47,9 +73,11 @@ const SignalR = () => {
       try {
         await connection.start();
 
-        console.log("connection successful");
+        console.log("🚀 ~ start ~ connection successful:");
+
+        //console.log("connection successful");
         console.log("Requesting list of all clients from hub...");
-        connection.invoke("SendAllClientsList");
+        connection.invoke("SendAllClientsList", [connection.connectionId]);
       } catch (error) {
         console.log("connection failure :" + error);
       }
@@ -61,31 +89,6 @@ const SignalR = () => {
     };
   }, []);
 
-  async function sendMessage(user, message) {
-    console.log(`Sending message to hub with details : ${user} , ${message}`);
-    await conn
-      .invoke("SendMessage", user, message)
-      .catch((err) => console.error(err));
-  }
-
-  // const GetAllClients = async () => {
-  //   if (conn && conn.state === signalR.HubConnectionState.Connected) {
-  //     try {
-  //       console.log("Requesting list of all clients from hub...");
-  //       await conn.invoke("SendAllClientsList");
-  //     } catch (error) {
-  //       console.error("Error fetching all clients:", error);
-  //     }
-  //   } else {
-  //     console.warn("Connection is not ready to invoke methods.");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (conn) {
-  //     GetAllClients();
-  //   }
-  // }, [conn]);
   useEffect(() => {
     if (clientData && Object.keys(clientData).length > 0) {
       Object.entries(clientData).forEach(([key, value]) => {
@@ -106,17 +109,32 @@ const SignalR = () => {
     console.log(`All messages : ${JSON.stringify(messageType)}`);
   }, [inMessages]);
 
+  // SEND MESSAGE FUNCTION
+  async function sendMessage(user, messageObject) {
+    console.log(
+      `Sending message to hub with details : ${user} , ${JSON.stringify(
+        messageObject
+      )}`
+    );
+    await conn
+      .invoke("SendMessage", user, messageObject)
+      .catch((err) => console.error(err));
+  }
+
   return (
     <div id="webcrumbs">
       <div className="w-full min-h-screen bg-black flex">
         {" "}
-        {/* Vertical Navbar */} <VerticalNavBar />
-        <ChatPreview clientData = {clientData} connContext = {conn}/>
-        {/* Main Chat Section */}
+        <VerticalNavBar />
+        <ChatPreview
+          clientData={clientData}
+          connContext={conn}
+          sendSelectedUser={fetchClickedUserFromChild}
+        />
         <div className="w-full min-h-screen bg-neutral-900 shadow-md flex flex-col">
           <header className="bg-neutral-700 p-4 text-neutral-50 flex items-center">
             <i className="fa-brands fa-facebook text-teal-500"></i>
-            <h1 className="ml-3 font-title font-bold text-lg">Chat</h1>
+            <h1 className="ml-3 font-title font-bold text-lg">{selectedUserFromChild.value === '' ? 'Chat' : selectedUserFromChild.value}</h1>
           </header>
           <main className="flex-1 p-4 overflow-y-auto">
             {messageType.map((object, index) => {
@@ -180,7 +198,15 @@ const SignalR = () => {
 
                   setOutMessage("");
 
-                  return sendMessage("akhil", outMessage);
+                  return sendMessage(
+                    "akhil",
+                    JSON.stringify({
+                      content: outMessage,
+                      timestamp: new Date().toLocaleDateString(),
+                      to: "akhil",
+                      from: userId,
+                    })
+                  );
                 }
               }}
             />
@@ -197,7 +223,12 @@ const SignalR = () => {
                   },
                 ]);
 
-                return sendMessage("akhil", outMessage);
+                return sendMessage("akhil", {
+                  Content: outMessage,
+                  Timestamp: new Date().toLocaleTimeString(),
+                  To: "akhil",
+                  From: userId,
+                });
               }}
             >
               <span className="material-symbols-outlined">send</span>
