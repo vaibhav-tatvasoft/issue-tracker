@@ -39,17 +39,41 @@ namespace ChattingApplication.Main.Services
             await Clients.Clients(users).SendAsync("ReceiveAllClientsList", ConnectedClients);
         }
 
-        public async Task SendMessage(string user, Object message) //user who SENT the message and message object
+        public async Task SendMessage(Object message) //user who SENT the message and message object
         {
-            //await Clients.All.SendAsync("ReceiveMessage", user, message);
-            //await Clients.Caller.SendAsync("ReceiveMessage", user, message);
             var messageObject = JsonSerializer.Deserialize<Message>(message.ToString());
-            await Clients.User(user).SendAsync("ReceiveMessage", Context.UserIdentifier, messageObject);
+
+            if (messageObject.type.ToLower() == "incoming")
+            {
+                messageObject.type = "outgoing";
+            }
+            else
+            {
+                messageObject.type = "incoming";
+            }
+
+            messageObject.timestamp = DateTime.Now.ToString();
+            
+            //await Clients.User(user).SendAsync("ReceiveMessage", Context.UserIdentifier, messageObject);
+            await Clients.OthersInGroup(messageObject.groupName).SendAsync("ReceiveMessage", Context.UserIdentifier, messageObject);
         }
 
         public async Task SendNotification(string message)
         {
             await Clients.All.SendAsync("ReceiveNotification", message);
+        }
+
+        public async Task StartPrivateChat(string fromConnectionId, string toConnectionId)
+        {
+            var orderedGroups = new[] { fromConnectionId, toConnectionId }.OrderBy(u => u).ToArray();
+            var groupName = $"Group_{orderedGroups[0]}_{orderedGroups[1]}";
+
+            Console.WriteLine(nameof(StartPrivateChat) + " Group Name " + groupName);
+
+            Groups.AddToGroupAsync(orderedGroups[0], groupName);
+            Groups.AddToGroupAsync(orderedGroups[1], groupName);
+
+            Clients.Caller.SendAsync("ReceiveGroupName", groupName);
         }
     }
 }
