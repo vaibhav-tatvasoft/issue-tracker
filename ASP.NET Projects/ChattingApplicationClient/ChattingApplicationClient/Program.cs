@@ -14,6 +14,7 @@ namespace SignalRConsoleClient
     class Program
     {
         private static HubConnection connection;
+        private static string groupName = "";
 
         static async Task Main(string[] args)
         {
@@ -26,6 +27,11 @@ namespace SignalRConsoleClient
                 .WithUrl("https://localhost:7219/realtimehub?userId=akhil")  // Replace with your SignalR hub URL
                 .Build();
 
+            connection.On<string>("ReceiveGroupName", groupname =>
+            {
+                groupName = groupname;
+                Console.WriteLine("GroupName : " + groupname);
+            });
 
             // Define what happens when a message is received
             connection.On<string, Object>("ReceiveMessage", (user, message) =>
@@ -44,7 +50,7 @@ namespace SignalRConsoleClient
                 if (message.ToLower() == "exit")
                     break;
 
-                await SendMessage("ConsoleUser", message);
+                await SendMessage("ConsoleUser", message, groupName);
             }
 
             // Stop the connection
@@ -64,7 +70,7 @@ namespace SignalRConsoleClient
             }
         }
 
-        private static async Task SendMessage(string user, string message)
+        private static async Task SendMessage(string user, string message, string groupName)
         {
             Message messageObj = new Message
             {
@@ -75,7 +81,7 @@ namespace SignalRConsoleClient
             };
             try
             {
-                await connection.InvokeAsync("SendMessage","vaibhav", messageObj);
+                await connection.InvokeAsync("SendMessage","vaibhav", messageObj, groupName);
                 Console.WriteLine($"Sent to vaibhav from : {user} : {message}");
             }
             catch (Exception ex)
