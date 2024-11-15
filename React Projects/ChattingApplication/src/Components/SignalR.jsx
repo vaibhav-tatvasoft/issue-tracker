@@ -9,14 +9,16 @@ const SignalR = () => {
   const [outMessages, setOutMessages] = useState([]);
   const [inMessages, setInMessages] = useState([]);
   const [outMessage, setOutMessage] = useState("");
-  const [conn, setConn] = useState({});               //{connection object}
-  const [clientData, setClientData] = useState({});               // {ConnectionId, UserIdentifier}
-  const [selectedUserFromChild, setSelectedUserFromChild] = useState({});               // {ConnectionId, UserIdentifier} from ChatPreview.jsx
+  const [conn, setConn] = useState({}); //{connection object}
+  const [clientData, setClientData] = useState({}); // {ConnectionId, UserIdentifier}
+  const [selectedUserFromChild, setSelectedUserFromChild] = useState({}); // {ConnectionId, UserIdentifier} from ChatPreview.jsx
   const [userId, setUserId] = useState("");
-  const [incomingMessageObject, setIncomingMessageObject] = useState({});               //{content, timestamp, to, from}
+  const [incomingMessageObject, setIncomingMessageObject] = useState({}); //{content, timestamp, to, from}
   const [groupName, setGroupName] = useState();
-  const [currentChatSessionDetails, setCurrentChatSessionDetails] = useState({});
-  const [allMessagesObject, setAllMessagesObject] = useState([])
+  const [currentChatSessionDetails, setCurrentChatSessionDetails] = useState(
+    {}
+  );
+  const [allMessagesObject, setAllMessagesObject] = useState([]);
 
   const fetchClickedUserFromChild = ({ key, value }) => {
     setSelectedUserFromChild({ key, value });
@@ -66,12 +68,11 @@ const SignalR = () => {
       );
       //console.log(`Incoming Message from client/hub ${fromUser} : ${JSON.stringify(messageObject)}`);
 
-      setAllMessagesObject(prev => [...prev, messageObject]);
+      setAllMessagesObject((prev) => [...prev, messageObject]);
 
       setIncomingMessageObject(messageObject);
 
       setInMessages((prevMessage) => [...prevMessage, messageObject.content]);
-
     });
 
     connection.onclose(start);
@@ -117,9 +118,7 @@ const SignalR = () => {
   // SEND MESSAGE FUNCTION
   async function sendMessage(messageObject) {
     console.log(
-      `Sending message to hub with details : ${JSON.stringify(
-        messageObject
-      )}`
+      `Sending message to hub with details : ${JSON.stringify(messageObject)}`
     );
     await conn
       .invoke("SendMessage", messageObject)
@@ -141,13 +140,13 @@ const SignalR = () => {
     Conversation();
   }, [incomingMessageObject]);
 
-  async function Conversation(){
+  async function Conversation() {
     // build an object with all details of current chat
     //groupName, message, some sort of boolean to verify that chat is active
     setCurrentChatSessionDetails({
       groupName: groupName,
-      messageObj: incomingMessageObject
-    })
+      messageObj: incomingMessageObject,
+    });
   }
 
   return (
@@ -164,39 +163,47 @@ const SignalR = () => {
           <header className="bg-neutral-700 p-4 text-neutral-50 flex items-center">
             <i className="fa-brands fa-facebook text-teal-500"></i>
             <h1 className="ml-3 font-title font-bold text-lg">
-              {Object.keys(selectedUserFromChild) === 0 ? "Chat" : selectedUserFromChild.value}
+              {Object.keys(selectedUserFromChild) === 0
+                ? "Chat"
+                : selectedUserFromChild.value}
             </h1>
           </header>
           <main className="flex-1 p-4 overflow-y-auto">
-            {allMessagesObject.map((object, index) => {
-              return (
-                <div
-                  key={index}
-                  className={
-                    object.type === "incoming"
-                      ? "mb-4 flex justify-start"
-                      : "mb-4 flex justify-end"
-                  }
-                >
+            {allMessagesObject
+              .filter(
+                (object) =>
+                  object.from === selectedUserFromChild.value ||
+                  object.to === selectedUserFromChild.value
+              )
+              .map((object, index) => {
+                return (
                   <div
+                    key={index}
                     className={
                       object.type === "incoming"
-                        ? "bg-neutral-700 text-neutral-50 p-3 rounded-md inline-block max-w-[60%]"
-                        : "bg-teal-500 text-white p-3 rounded-md inline-block max-w-[60%]"
+                        ? "mb-4 flex justify-start"
+                        : "mb-4 flex justify-end"
                     }
                   >
-                    <p>{object.content}</p>
-                    <span className="text-xs text-neutral-500 mt-2 inline-block">
-                      {object.timestamp}
-                    </span>
-                    &nbsp;&nbsp;
-                    {object.type === "outgoing" && (
-                      <i className="fa fa-check-double text-xs text-neutral-200"></i>
-                    )}
+                    <div
+                      className={
+                        object.type === "incoming"
+                          ? "bg-neutral-700 text-neutral-50 p-3 rounded-md inline-block max-w-[60%]"
+                          : "bg-teal-500 text-white p-3 rounded-md inline-block max-w-[60%]"
+                      }
+                    >
+                      <p>{object.content}</p>
+                      <span className="text-xs text-neutral-500 mt-2 inline-block">
+                        {object.timestamp}
+                      </span>
+                      &nbsp;&nbsp;
+                      {object.type === "outgoing" && (
+                        <i className="fa fa-check-double text-xs text-neutral-200"></i>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </main>
           <footer className="p-4 border-t border-neutral-700 flex items-center gap-3">
             <input
@@ -218,18 +225,16 @@ const SignalR = () => {
                   setOutMessage("");
 
                   const messageObject = {
-                    type: 'outgoing',
+                    type: "outgoing",
                     content: outMessage,
                     to: selectedUserFromChild.value,
                     from: userId,
-                    groupName
-                  }
+                    groupName,
+                  };
 
-                  setAllMessagesObject(prev => [...prev, messageObject])
+                  setAllMessagesObject((prev) => [...prev, messageObject]);
 
-                  return sendMessage(
-                    JSON.stringify(messageObject)
-                  );
+                  return sendMessage(JSON.stringify(messageObject));
                 }
               }}
             />
@@ -243,7 +248,7 @@ const SignalR = () => {
                     content: outMessage,
                     to: selectedUserFromChild.value,
                     from: userId,
-                    groupName
+                    groupName,
                   })
                 );
               }}
