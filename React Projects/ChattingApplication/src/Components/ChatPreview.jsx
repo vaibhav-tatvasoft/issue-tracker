@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setClickedUser } from "../Slices/UserClickedSlice";
 
-const ChatPreview = ({ clientData, connContext, sendSelectedUser }) => {
-  const [clickedUser, setClickedUser] = useState({});
+const ChatPreview = () => {
+  const dispatch = useDispatch();
+  const { conn, clientData } = useSelector((state) => state.messages);
 
-  const handleButtonClicked = ({key, value}) => {
-    sendSelectedUser({key, value});
+  const handleButtonClicked = ({ key, value }) => {
+    dispatch(setClickedUser({ key, value }));
   };
 
   return (
@@ -19,36 +22,40 @@ const ChatPreview = ({ clientData, connContext, sendSelectedUser }) => {
           />
         </div>
 
-        <ul className="flex flex-col gap-2">
-          {Object.entries(clientData).map(([key, value], index) => {
-            return (
-              <li
-                key={key}
-                className="flex items-center gap-2 p-2 hover:bg-neutral-600 rounded-md cursor-pointer h-[70px]"
-                onClick={() => {
-                  //setClickedUser({ key, value });
-                  handleButtonClicked({ key, value });
-                }}
-              >
-                <img
-                  src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/1"
-                  alt="User"
-                  className="rounded-full w-[40px] h-[40px] object-cover"
-                />
-                <div className="flex flex-col justify-center">
-                  <p className="text-neutral-300 text-sm font-bold">
-                    {key === connContext.connectionId
-                      ? `${value} (You)`
-                      : value}
-                  </p>
-                  <span className="text-xs text-neutral-400 whitespace-nowrap overflow-hidden text-ellipsis w-[180px]">
-                    Hey, can we discuss the meeting agenda?
-                  </span>
-                </div>
-                <hr className="border-neutral-600" />
-              </li>
-            );
-          })}
+        {/* User List */}
+        <ul className="flex flex-col gap-4">
+          {Object.entries(clientData).map(([key, value]) => (
+            <li
+              key={key}
+              className="flex items-center gap-3 p-3 bg-neutral-700 hover:bg-neutral-600 rounded-md cursor-pointer"
+              onClick={() => handleButtonClicked({ key, value })}
+            >
+              {/* User Avatar */}
+              <img
+                src="https://tools-api.webcrumbs.org/image-placeholder/40/40/avatars/1"
+                alt="User"
+                className="rounded-full w-[50px] h-[50px] object-cover"
+              />
+
+              {/* User Info */}
+              <div className="flex-1">
+                <p className="text-neutral-300 text-base font-bold truncate">
+                  {key === conn.connectionId ? `${value} (You)` : value}
+                </p>
+                <p className="text-xs text-neutral-400 truncate">
+                  Hey, can we discuss the meeting agenda?
+                </p>
+              </div>
+
+              {/* Notification Icon */}
+              <div className="relative flex items-center">
+                <span className="material-symbols-outlined text-neutral-500">
+                  chat
+                </span>
+                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+              </div>
+            </li>
+          ))}
         </ul>
       </aside>
     </div>

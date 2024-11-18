@@ -1,6 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios';
+import{useFormik} from "formik";
+import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from '../Slices/UserSlice'
 
 const UserRegistration = () => {
+
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state.users)
+
+    const formik = useFormik({
+      initialValues: {
+        email: "",
+        userName: "" 
+      },
+      onSubmit: async (values) => {
+          console.log("🚀 ~ UserRegistration ~ values:", values)
+          try {
+            const response = await axios.post('https://localhost:7219/api/User', values);
+            console.log("🚀 ~ onSubmit: ~ response:", response.data)
+            dispatch(setUser(response.data));
+          } catch (error) {
+            console.log("🚀 ~ onSubmit: ~ error:", error.response.data)
+          }
+      }
+    })
+
     return (
         <div id="webcrumbs">
       <div className="w-full h-screen bg-gray-50 flex justify-center items-center">
@@ -15,17 +40,19 @@ const UserRegistration = () => {
             Create an Account
           </h1>
 
-          <form className="w-full flex flex-col gap-6">
+          <form onSubmit={formik.handleSubmit} className="w-full flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label htmlFor="firstname" className="text-neutral-950">
+              <label htmlFor="userName" className="text-neutral-950">
                 First Name
               </label>
               <input
                 type="text"
-                id="firstname"
-                name="firstname"
+                id="userName"
+                name="userName"
                 className="border border-neutral-300 p-3 rounded-md"
                 placeholder="Enter your first name"
+                onChange={formik.handleChange}
+                value={formik.values.userName}
               />
             </div>
 
@@ -39,6 +66,8 @@ const UserRegistration = () => {
                 name="email"
                 className="border border-neutral-300 p-3 rounded-md"
                 placeholder="Enter your email"
+                onChange={formik.handleChange}
+                value={formik.values.email}
               />
             </div>
 
@@ -54,7 +83,7 @@ const UserRegistration = () => {
               />
             </div>
 
-            <button className="bg-teal-500 text-primary-50 p-3 rounded-md mt-6">
+            <button type="submit" className="bg-teal-500 text-primary-50 p-3 rounded-md mt-6">
               Sign Up
             </button>
           </form>
