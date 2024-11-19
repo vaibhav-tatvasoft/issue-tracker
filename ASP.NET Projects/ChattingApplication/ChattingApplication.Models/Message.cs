@@ -8,6 +8,7 @@ namespace ChattingApplication.Models
 {
     public class Message
     {
+        public string id {  get; set; }
         public string type { get; set; }
         public string content { get; set; }
         public string? timestamp { get; set; }
