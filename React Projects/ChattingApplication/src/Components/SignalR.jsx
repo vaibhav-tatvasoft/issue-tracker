@@ -20,9 +20,8 @@ const SignalR = () => {
   const { allMessages, clientData,} = useSelector(
     (state) => state.messages
   );
-  const clickedUser = useSelector(
-    (state) => state.userSelected.clickedUser || {}
-  );
+  const {clickedUser, prevClickedUser} = useSelector(
+    (state) => state.userSelected);
 
   const clickedUserRef = useRef(clickedUser);
   const { connection, isConnected } = useSignalR();
@@ -35,6 +34,17 @@ const SignalR = () => {
       console.log("🚀 ~ SignalR ~ clickedUserFromChild:", clickedUser);
       clickedUserRef.current = clickedUser;
       StartPrivateChat();
+
+      if(prevClickedUser !== clickedUser){
+        if(allMessages.length > 0){
+          const updatedMessages = allMessages.map(e => 
+            e.from === clickedUser.value && e.isRead === false
+              ? dispatch(setMessage({ ...e, isRead: true }))
+              : e
+          );
+          dispatch(setMessage(updatedMessages))
+        }
+      }
     }
   }, [clickedUser]);
 

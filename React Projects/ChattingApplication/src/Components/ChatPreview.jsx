@@ -1,14 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedUser } from "../Slices/UserClickedSlice";
+import { setClickedUser, setPrevClickedUser } from "../Slices/UserClickedSlice";
 import { useSignalR } from "./SignalRProvider";
 
 const ChatPreview = () => {
   const { connection } = useSignalR();
   const dispatch = useDispatch();
   const { clientData, allMessages } = useSelector((state) => state.messages);
+  const { prevClickedUser, clickedUser } = useSelector((state) => state.userSelected);
 
   const handleButtonClicked = ({ key, value }) => {
+    dispatch(setPrevClickedUser(clickedUser));
     dispatch(setClickedUser({ key, value }));
   };
 

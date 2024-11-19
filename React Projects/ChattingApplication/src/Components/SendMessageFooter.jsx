@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux";
 import {
     setMessage,
@@ -50,6 +51,7 @@ const SendMessageFooter = () => {
             dispatch(setOutMessage(""));
 
             const messageObject = {
+              id: uuidv4(),
               type: "outgoing",
               content: outMessage,
               to: clickedUser.value,
