@@ -5,9 +5,12 @@ import {
     setOutMessage,
     setOutMessages
 } from "../Slices/MessageSlice";
+import { useSignalR } from "./SignalRProvider";
+
 
 const SendMessageFooter = () => {
   const dispatch = useDispatch();
+  const {connection} = useSignalR();
   const { groupName, userId, conn, outMessage, outMessages} = useSelector(
     (state) => state.messages
   );
@@ -22,7 +25,7 @@ const SendMessageFooter = () => {
     console.log(
       `Sending message to hub with details : ${JSON.stringify(messageObject)}`
     );
-    await conn
+    await connection.current
       .invoke("SendMessage", messageObject)
       .catch((err) => console.error(err));
   }

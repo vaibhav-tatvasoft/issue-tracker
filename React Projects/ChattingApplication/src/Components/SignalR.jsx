@@ -1,105 +1,76 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import * as signalR from "@microsoft/signalr";
 import "./SignalR.css";
 import VerticalNavBar from "./VerticalNavBar";
 import ChatPreview from "./ChatPreview";
+import { useSignalR } from "./SignalRProvider";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   setClientData,
   setMessage,
   setGroupName,
-  setUserId,
-  setConn,
 } from "../Slices/MessageSlice";
 import ChatWindow from "./ChatWindow";
 import SendMessageFooter from "./SendMessageFooter";
 
 const SignalR = () => {
   const dispatch = useDispatch();
-  const { clientData, conn } = useSelector((state) => state.messages);
+  const { allMessages, clientData,} = useSelector(
+    (state) => state.messages
+  );
   const clickedUser = useSelector(
     (state) => state.userSelected.clickedUser || {}
   );
 
+  const clickedUserRef = useRef(clickedUser);
+  const { connection, isConnected } = useSignalR();
+
   const [inMessages, setInMessages] = useState([]);
-  const [incomingMessageObject, setIncomingMessageObject] = useState({}); //{content, timestamp, to, from}
-  const [currentChatSessionDetails, setCurrentChatSessionDetails] = useState(
-    {}
-  );
+  const [incomingMessageLocal, setIncomingMessageLocal] = useState({})
 
   useEffect(() => {
     if (clickedUser && Object.keys(clickedUser).length > 0) {
       console.log("🚀 ~ SignalR ~ clickedUserFromChild:", clickedUser);
+      clickedUserRef.current = clickedUser;
       StartPrivateChat();
     }
   }, [clickedUser]);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log("🚀 ~ useEffect ~ urlParams:", urlParams.get("userId"));
-    const uid = urlParams.get("userId");
+    if (isConnected) {
+      connection.current.on("ReceiveAllClientsList", (data) => {
+        console.log(
+          "🚀 ~ connection.on ReceiveAllClientsList ~ data:",
+          JSON.stringify(data)
+        );
 
-    dispatch(setUserId(uid));
+        dispatch(setClientData(data));
+      });
 
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://localhost:7219/realtimehub?userId=${uid}`)
-      .build();
+      connection.current.on("ReceiveGroupName", (groupName) => {
+        console.log("GroupName : " + groupName);
+        dispatch(setGroupName(groupName));
+      });
 
-    dispatch(setConn(connection));
+      connection.current.on("ReceiveMessage", (fromUser, messageObject) => {
 
-    connection.on("ReceiveAllClientsList", (data) => {
-      console.log(
-        "🚀 ~ connection.on ReceiveAllClientsList ~ data:",
-        JSON.stringify(data)
-      );
+        console.log(
+          "🚀 ~ connection.on ReceiveMessage ~ fromUser, messageObject:",
+          clickedUserRef.current.value,
+          fromUser,
+          JSON.stringify(messageObject)
+        );
 
-      dispatch(setClientData(data));
-    });
+        setInMessages((prevMessage) => [...prevMessage, messageObject]);
+      });
 
-    connection.on("ReceiveGroupName", (groupName) => {
-      console.log("GroupName : " + groupName);
-      dispatch(setGroupName(groupName));
-    });
-
-    connection.on("ReceiveMessage", (fromUser, messageObject) => {
-      console.log(
-        "🚀 ~ connection.on ReceiveMessage ~ fromUser, messageObject:",
-        fromUser,
-        JSON.stringify(messageObject)
-      );
-
-      dispatch(setMessage(messageObject));
-
-      setIncomingMessageObject(messageObject);
-
-      setInMessages((prevMessage) => [...prevMessage, messageObject.content]);
-    });
-
-    connection.onclose(start);
-
-    start();
-
-    async function start() {
-      try {
-        await connection.start();
-
-        console.log("🚀 ~ start ~ connection successful:");
-
-        //console.log("connection successful");
-        console.log("Requesting list of all clients from hub...");
-        connection.invoke("SendAllClientsList", [connection.connectionId]);
-      } catch (error) {
-        console.log("connection failure :" + error);
-      }
+      return () => {
+        connection.current.off("ReceiveMessage");
+      };
     }
-
-    return () => {
-      connection.off("ReceiveMessage");
-      connection.stop();
-    };
-  }, [dispatch]);
+  }, [dispatch, isConnected]);
 
   useEffect(() => {
     if (clientData && Object.keys(clientData).length > 0) {
@@ -111,54 +82,70 @@ const SignalR = () => {
 
   useEffect(() => {
     console.log(`Incoming message : ${JSON.stringify(inMessages)}`);
+    if(clickedUser.value){
+      NotificationBadgeCheck(inMessages[inMessages.length - 1]);
+    }
   }, [inMessages]);
+
+  useEffect(() => {
+    if(allMessages && allMessages.length > 0){
+      console.log("🚀 ~ SignalR ~ allMessagesArray:", allMessages[allMessages.length -1].from)
+      console.log("🚀 ~ SignalR ~ allMessages count", allMessages.filter( e => e.isRead === false).length)
+    }
+
+  }, [allMessages])
 
   //Create a group on server side and return groupName
   async function StartPrivateChat() {
     console.log("🚀 ~ StartPrivateChat ~ Entered the method:");
 
-    await conn
-      .invoke("StartPrivateChat", conn.connectionId, clickedUser.key)
+    await connection.current
+      .invoke(
+        "StartPrivateChat",
+        connection.current.connectionId,
+        clickedUser.key
+      )
       .catch((e) =>
         console.log("Error occured while invoking StartPrivateChat " + e)
       );
   }
 
-  // useEffect(() => {
-  //   Conversation();
-  // }, [incomingMessageObject]);
+  function NotificationBadgeCheck(messageObject) {
+      console.log("🚀 ~ NotificationBadgeCheck ~ messageObject:", messageObject);
+    console.log(
+      "🚀 ~ NotificationBadgeCheck ~ clickedUserRef:",
+      clickedUserRef.current
+    );
 
-  // async function Conversation() {
-  //   // build an object with all details of current chat
-  //   //groupName, message, some sort of boolean to verify that chat is active
-  //   setCurrentChatSessionDetails({
-  //     groupName: groupName,
-  //     messageObj: incomingMessageObject,
-  //   });
-  // }
+    if (messageObject.from === clickedUserRef.current.value) {
+      setIncomingMessageLocal({...messageObject, isRead: true})
+      dispatch(setMessage({...messageObject, isRead: true}));
+    }
+    else{
+      setIncomingMessageLocal({...messageObject, isRead: false})
+      dispatch(setMessage({...messageObject, isRead: false}));
+    }
+  }
 
   return (
     <div id="webcrumbs">
-  <div
-    className="w-full min-h-screen bg-cover bg-center flex"
-  >
-    <VerticalNavBar />
-    <ChatPreview />
-    <div className="w-full min-h-screen bg-white/90 shadow-md flex flex-col">
-      <header className="bg-neutral-100 p-4 text-neutral-900 flex items-center border-b border-neutral-300">
-        <i className="fa-brands fa-facebook text-teal-500"></i>
-        <h1 className="ml-3 font-title font-bold text-lg">
-          {clickedUser && Object.keys(clickedUser).length === 0
-            ? "Select a chat"
-            : clickedUser.value}
-        </h1>
-      </header>
-      <ChatWindow />
-      <SendMessageFooter />
+      <div className="w-full min-h-screen bg-cover bg-center flex">
+        <VerticalNavBar />
+        <ChatPreview />
+        <div className="w-full min-h-screen bg-neutral-900 shadow-md flex flex-col">
+          <header className="bg-neutral-800 p-4 text-neutral-100 flex items-center border-b border-neutral-700">
+            <i className="fa-brands fa-facebook text-teal-400"></i>
+            <h1 className="ml-3 font-title font-bold text-lg">
+              {clickedUser && Object.keys(clickedUser).length === 0
+                ? "Select a chat"
+                : clickedUser.value}
+            </h1>
+          </header>
+          <ChatWindow />
+          <SendMessageFooter />
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

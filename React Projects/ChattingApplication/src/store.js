@@ -8,7 +8,11 @@ export const store = configureStore({
         messages : messageReducer,
         userSelected : UserSelectedReducer,
         users: userDetailsReducer
-    }
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+          serializableCheck: false,
+        })
 })
 
 export default store;

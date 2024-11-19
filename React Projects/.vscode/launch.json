@@ -7,9 +7,27 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "Launch Chrome with userId=vaibhav",
             "url": "http://localhost:3000?userId=vaibhav",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome-vaibhav"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome with userId=akhil",
+            "url": "http://localhost:3000?userId=akhil",
+            "webRoot": "${workspaceFolder}",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome-akhil"
         }
-    ]
+    ],
+    "compounds": [
+    {
+      "name": "Launch Both Instances",
+      "configurations": [
+        "Launch Chrome with userId=vaibhav",
+        "Launch Chrome with userId=akhil"
+      ]
+    }
+  ]
 }
