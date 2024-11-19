@@ -52,7 +52,7 @@ namespace ChattingApplication.Main.Services
                 messageObject.type = "incoming";
             }
 
-            messageObject.timestamp = DateTime.Now.ToString();
+            //messageObject.timestamp = DateTime.Now.ToString();
             
             //await Clients.User(user).SendAsync("ReceiveMessage", Context.UserIdentifier, messageObject);
             await Clients.OthersInGroup(messageObject.groupName).SendAsync("ReceiveMessage", Context.UserIdentifier, messageObject);

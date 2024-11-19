@@ -1,4 +1,5 @@
 using ChattingApplication.DataAccess;
+using ChattingApplication.DataAccess.Repository;
 using ChattingApplication.Main.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+builder.Services.AddScoped<IUserRepository,  UserRepository>(); 
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //builder.Services.AddCors(options =>
 //{
