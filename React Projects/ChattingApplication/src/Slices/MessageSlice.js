@@ -20,7 +20,13 @@ const MessageSlice = createSlice({
     setMessage(state, action) {
       state.allMessages.push(action.payload);
     },
-    setGroupName(state, action) {
+    updateMessage(state, action){
+      const updatedMessage = action.payload;
+      state.allMessages = state.allMessages.map((message, index) => {
+        return (message.id === updatedMessage[index].id ? updatedMessage : message)
+      });
+    },
+    setGroupName(state, action) { 
       state.groupName = action.payload;
     },
     setUserId(state, action) {
@@ -38,5 +44,5 @@ const MessageSlice = createSlice({
   },
 });
 
-export const {setClientData, setMessage, setGroupName, setUserId, setConn, setOutMessages, setOutMessage} = MessageSlice.actions;
+export const {setClientData, setMessage, setGroupName, setUserId, setConn, setOutMessages, setOutMessage,updateMessage} = MessageSlice.actions;
 export default MessageSlice.reducer

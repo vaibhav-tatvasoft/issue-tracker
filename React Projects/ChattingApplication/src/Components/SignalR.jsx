@@ -11,6 +11,7 @@ import {
   setClientData,
   setMessage,
   setGroupName,
+  updateMessage
 } from "../Slices/MessageSlice";
 import ChatWindow from "./ChatWindow";
 import SendMessageFooter from "./SendMessageFooter";
@@ -39,7 +40,7 @@ const SignalR = () => {
         if(allMessages.length > 0){
           const updatedMessages = allMessages.map(e => 
             e.from === clickedUser.value && e.isRead === false
-              ? dispatch(setMessage({ ...e, isRead: true }))
+              ? { ...e, isRead: true }
               : e
           );
           dispatch(setMessage(updatedMessages))
@@ -92,7 +93,8 @@ const SignalR = () => {
 
   useEffect(() => {
     console.log(`Incoming message : ${JSON.stringify(inMessages)}`);
-    if(clickedUser.value){
+    //if(clickedUser.value){
+    if(inMessages.length > 0){
       NotificationBadgeCheck(inMessages[inMessages.length - 1]);
     }
   }, [inMessages]);
