@@ -4,12 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setUserId
 } from "../Slices/MessageSlice";
+import SignalR from './SignalR';
 
 const SignalRContext = createContext(null);
 
 export const SignalRProvider = ({children}) => {
 
   const [isConnected, setIsConnected] = useState(false);
+
+  const {user} = useSelector(state => state.users)
 
     const dispatch = useDispatch();
 
@@ -20,12 +23,13 @@ export const SignalRProvider = ({children}) => {
         const urlParams = new URLSearchParams(window.location.search);
     console.log("🚀 ~ useEffect ~ urlParams:", urlParams.get("userId"));
     const uid = urlParams.get("userId");
+    const loggedInUserObj = JSON.stringify(user);
 
     dispatch(setUserId(uid));
 
-    
+
         const connection = new signalR.HubConnectionBuilder()
-          .withUrl(`https://localhost:7219/realtimehub?userId=${uid}`)
+          .withUrl(`https://localhost:7219/realtimehub?user=${encodeURIComponent(loggedInUserObj)}`)
           .build();
 
           connection.onclose(start);
@@ -57,6 +61,7 @@ export const SignalRProvider = ({children}) => {
   return (
     <SignalRContext.Provider value = {{connection :connRef, isConnected}}>
         {children}
+        <SignalR></SignalR>
     </SignalRContext.Provider>
   )
 }

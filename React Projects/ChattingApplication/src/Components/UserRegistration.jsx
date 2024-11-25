@@ -3,9 +3,11 @@ import axios from 'axios';
 import{useFormik} from "formik";
 import { useDispatch, useSelector } from 'react-redux';
 import {setUser} from '../Slices/UserSlice'
+import { useNavigate } from 'react-router-dom';
 
 const UserRegistration = () => {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.users)
 
@@ -20,6 +22,7 @@ const UserRegistration = () => {
             const response = await axios.post('https://localhost:7219/api/User', values);
             console.log("🚀 ~ onSubmit: ~ response:", response.data)
             dispatch(setUser(response.data));
+            navigate("/SignalRProvider")
           } catch (error) {
             console.log("🚀 ~ onSubmit: ~ error:", error.response.data)
           }

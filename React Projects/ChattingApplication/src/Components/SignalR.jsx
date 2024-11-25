@@ -11,24 +11,23 @@ import {
   setClientData,
   setMessage,
   setGroupName,
-  updateMessage
+  updateMessage,
 } from "../Slices/MessageSlice";
 import ChatWindow from "./ChatWindow";
 import SendMessageFooter from "./SendMessageFooter";
 
 const SignalR = () => {
   const dispatch = useDispatch();
-  const { allMessages, clientData,} = useSelector(
-    (state) => state.messages
+  const { allMessages, clientData } = useSelector((state) => state.messages);
+  const { clickedUser, prevClickedUser } = useSelector(
+    (state) => state.userSelected
   );
-  const {clickedUser, prevClickedUser} = useSelector(
-    (state) => state.userSelected);
 
   const clickedUserRef = useRef(clickedUser);
   const { connection, isConnected } = useSignalR();
 
   const [inMessages, setInMessages] = useState([]);
-  const [incomingMessageLocal, setIncomingMessageLocal] = useState({})
+  const [incomingMessageLocal, setIncomingMessageLocal] = useState({});
 
   useEffect(() => {
     if (clickedUser && Object.keys(clickedUser).length > 0) {
@@ -36,14 +35,14 @@ const SignalR = () => {
       clickedUserRef.current = clickedUser;
       StartPrivateChat();
 
-      if(prevClickedUser !== clickedUser){
-        if(allMessages.length > 0){
-          const updatedMessages = allMessages.map(e => 
+      if (prevClickedUser !== clickedUser) {
+        if (allMessages.length > 0) {
+          const updatedMessages = allMessages.map((e) =>
             e.from === clickedUser.value && e.isRead === false
               ? { ...e, isRead: true }
               : e
           );
-          dispatch(setMessage(updatedMessages))
+          dispatch(setMessage(updatedMessages));
         }
       }
     }
@@ -66,7 +65,6 @@ const SignalR = () => {
       });
 
       connection.current.on("ReceiveMessage", (fromUser, messageObject) => {
-
         console.log(
           "🚀 ~ connection.on ReceiveMessage ~ fromUser, messageObject:",
           clickedUserRef.current.value,
@@ -94,18 +92,20 @@ const SignalR = () => {
   useEffect(() => {
     console.log(`Incoming message : ${JSON.stringify(inMessages)}`);
     //if(clickedUser.value){
-    if(inMessages.length > 0){
+    if (inMessages.length > 0) {
       NotificationBadgeCheck(inMessages[inMessages.length - 1]);
     }
   }, [inMessages]);
 
   useEffect(() => {
-    if(allMessages && allMessages.length > 0){
-      console.log("🚀 ~ SignalR ~ allMessagesArray:", allMessages[allMessages.length -1].from)
-      console.log("🚀 ~ SignalR ~ allMessages count", allMessages.filter( e => e.isRead === false).length)
+    if (allMessages && allMessages.length > 0) {
+      console.log("🚀 ~ SignalR ~ allMessagesArray:", allMessages);
+      console.log(
+        "🚀 ~ SignalR ~ allMessages count",
+        allMessages.filter((e) => e.isRead === false).length
+      );
     }
-
-  }, [allMessages])
+  }, [allMessages]);
 
   //Create a group on server side and return groupName
   async function StartPrivateChat() {
@@ -123,19 +123,18 @@ const SignalR = () => {
   }
 
   function NotificationBadgeCheck(messageObject) {
-      console.log("🚀 ~ NotificationBadgeCheck ~ messageObject:", messageObject);
+    console.log("🚀 ~ NotificationBadgeCheck ~ messageObject:", messageObject);
     console.log(
       "🚀 ~ NotificationBadgeCheck ~ clickedUserRef:",
       clickedUserRef.current
     );
 
     if (messageObject.from === clickedUserRef.current.value) {
-      setIncomingMessageLocal({...messageObject, isRead: true})
-      dispatch(setMessage({...messageObject, isRead: true}));
-    }
-    else{
-      setIncomingMessageLocal({...messageObject, isRead: false})
-      dispatch(setMessage({...messageObject, isRead: false}));
+      setIncomingMessageLocal({ ...messageObject, isRead: true });
+      dispatch(setMessage({ ...messageObject, isRead: true }));
+    } else {
+      setIncomingMessageLocal({ ...messageObject, isRead: false });
+      dispatch(setMessage({ ...messageObject, isRead: false }));
     }
   }
 
@@ -150,7 +149,7 @@ const SignalR = () => {
             <h1 className="ml-3 font-title font-bold text-lg">
               {clickedUser && Object.keys(clickedUser).length === 0
                 ? "Select a chat"
-                : clickedUser.value}
+                : clickedUser.value.userName}
             </h1>
           </header>
           <ChatWindow />

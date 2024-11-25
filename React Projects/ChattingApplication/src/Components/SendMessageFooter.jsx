@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    setMessage,
-    setOutMessage,
-    setOutMessages
-} from "../Slices/MessageSlice";
+  setMessage,
+  setOutMessage,
+  setOutMessages,
+} from "../Slices/MessageSlice"; 
 import { useSignalR } from "./SignalRProvider";
-
 
 const SendMessageFooter = () => {
   const dispatch = useDispatch();
-  const {connection} = useSignalR();
-  const { groupName, userId, conn, outMessage, outMessages} = useSelector(
+  const { connection } = useSignalR();
+  const { groupName, userId, conn, outMessage, outMessages } = useSelector(
     (state) => state.messages
   );
-  const clickedUser = useSelector((state) => state.userSelected.clickedUser || {})
+  const clickedUser = useSelector(
+    (state) => state.userSelected.clickedUser || {}
+  );
+  const {user} = useSelector(state => state.users);
 
   useEffect(() => {
     console.log(`Outgoing message : ${JSON.stringify(outMessages)}`);
@@ -37,7 +39,7 @@ const SendMessageFooter = () => {
         type="text"
         value={outMessage}
         placeholder="Type a message"
-        className="flex-1 p-3 border border-neutral-700 bg-neutral-800 text-neutral-50 rounded-md"
+        className="flex-1 p-3 border border-neutral-700 bg-neutral-600 text-neutral-50 rounded-lg focus:ring-2 focus:ring-teal-500"
         onChange={(chat) => {
           const newMessage = chat.target.value;
           dispatch(setOutMessage(newMessage));
@@ -47,15 +49,13 @@ const SendMessageFooter = () => {
             dispatch(
               setOutMessages((prevMessages) => [...prevMessages, outMessage])
             );
-
             dispatch(setOutMessage(""));
-
             const messageObject = {
               id: uuidv4(),
               type: "outgoing",
               content: outMessage,
               to: clickedUser.value,
-              from: userId,
+              from: user.userName,
               groupName,
               timestamp: new Date().toLocaleTimeString([], {
                 hour: "2-digit",
@@ -63,20 +63,17 @@ const SendMessageFooter = () => {
                 hour12: false,
               }),
             };
-
             dispatch(setMessage(messageObject));
-
             return sendMessage(JSON.stringify(messageObject));
           }
         }}
       />
       <button
-        className="bg-teal-500 text-white w-[50px] h-[50px] p-3 rounded-full flex items-center justify-center"
+        className="bg-teal-500 text-white w-[50px] h-[50px] p-3 rounded-full flex items-center justify-center hover:bg-teal-400 transition duration-300"
         onClick={() => {
           dispatch(
             setOutMessages((prevMessages) => [...prevMessages, outMessage])
           );
-
           const messageObject = {
             type: "outgoing",
             content: outMessage,
@@ -89,9 +86,7 @@ const SendMessageFooter = () => {
               hour12: false,
             }),
           };
-
           dispatch(setMessage(messageObject));
-
           return sendMessage(JSON.stringify(messageObject));
         }}
       >
