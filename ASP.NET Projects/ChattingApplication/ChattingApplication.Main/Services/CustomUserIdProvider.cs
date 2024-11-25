@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using ChattingApplication.Models;
+using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
 namespace ChattingApplication.Main.Services
 {
@@ -6,8 +8,13 @@ namespace ChattingApplication.Main.Services
     {
         public string? GetUserId(HubConnectionContext connection)
         {
-            var userId = connection.GetHttpContext()?.Request.Query["userId"];
-            return userId;
+            var user = connection.GetHttpContext()?.Request.Query["user"];
+            if (!string.IsNullOrEmpty(user))
+            {
+                return user;
+            }
+            return null;
         }
+
     }
 }

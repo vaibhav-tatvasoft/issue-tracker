@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "edHVI20L9FNqPssQ8UE8ODB1PlzzpPM533YcuSmCbbN48BQh0kROyhqwssxEFURdF+iqOdw+Mp00ONjMaIdkeQ==",
+  "dgSpecHash": "eARneXh9xBbiV7v9tdGca09Mbjc0Woxj8IHZIHEAWWcBu8WU19WqQks1FDVtitq3fEg2Cv1ja3pfyyN8fimJVA==",
   "success": true,
   "projectFilePath": "C:\\Users\\pce42\\Desktop\\ASP.NET Projects\\ChattingApplication\\ChattingApplication.Models\\ChattingApplication.Models.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\pce42\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.35\\microsoft.entityframeworkcore.abstractions.6.0.35.nupkg.sha512"
+  ],
   "logs": []
 }

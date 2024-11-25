@@ -9,3 +9,4 @@ C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.
 C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\refint\ChattingApplication.Models.dll
 C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.pdb
 C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ref\ChattingApplication.Models.dll
+C:\Users\pce42\Desktop\ASP.NET Projects\ChattingApplication\ChattingApplication.Models\obj\Debug\net6.0\ChattingApplication.Models.csproj.AssemblyReference.cache

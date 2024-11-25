@@ -888,6 +888,9 @@
       "ChattingApplication.Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.35"
+        },
         "compile": {
           "bin/placeholder/ChattingApplication.Models.dll": {}
         },

@@ -36,11 +36,11 @@ namespace ChattingApplication.Controllers
 
         // GET: api/User/{id}
         [HttpGet("{id}")]
-        public IActionResult GetUser(int id)
+        public IActionResult GetUser(string id)
         {
             try
             {
-                var user = _userRepository.GetUser(u => u.Id == id);
+                var user = _userRepository.GetUser(u => u.id == id);
                 if (user == null)
                     return NotFound($"User with ID {id} not found.");
 
@@ -60,10 +60,15 @@ namespace ChattingApplication.Controllers
             {
                 if (user == null)
                     return BadRequest("User object is null.");
-                var userObject = JsonSerializer.Deserialize<User>(user.ToString());
-                _userRepository.AddUser(userObject);
-                return CreatedAtAction(nameof(GetUser), new { id = userObject.Id }, userObject);
-
+                User userObject = JsonSerializer.Deserialize<User>(user.ToString());
+                var result = _userRepository.GetUser(u => u.email == userObject.email);
+                if(result == null)
+                {
+                    userObject.id = Guid.NewGuid().ToString();
+                    _userRepository.AddUser(userObject);
+                    return CreatedAtAction(nameof(GetUser), new { id = userObject.id }, userObject);
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -73,14 +78,14 @@ namespace ChattingApplication.Controllers
 
         // PUT: api/User/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
+        public IActionResult UpdateUser(string id, [FromBody] User updatedUser)
         {
             try
             {
-                if (updatedUser == null || updatedUser.Id != id)
+                if (updatedUser == null || updatedUser.id != id)
                     return BadRequest("User object is null or IDs do not match.");
 
-                var existingUser = _userRepository.GetUser(u => u.Id == id);
+                var existingUser = _userRepository.GetUser(u => u.id == id);
                 if (existingUser == null)
                     return NotFound($"User with ID {id} not found.");
 
@@ -95,11 +100,11 @@ namespace ChattingApplication.Controllers
 
         // DELETE: api/User/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(string id)
         {
             try
             {
-                var user = _userRepository.GetUser(u => u.Id == id);
+                var user = _userRepository.GetUser(u => u.id == id);
                 if (user == null)
                     return NotFound($"User with ID {id} not found.");
 

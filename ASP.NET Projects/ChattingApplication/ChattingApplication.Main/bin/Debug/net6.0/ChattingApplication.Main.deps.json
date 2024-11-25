@@ -512,6 +512,9 @@
         }
       },
       "ChattingApplication.Models/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.35"
+        },
         "runtime": {
           "ChattingApplication.Models.dll": {}
         }
