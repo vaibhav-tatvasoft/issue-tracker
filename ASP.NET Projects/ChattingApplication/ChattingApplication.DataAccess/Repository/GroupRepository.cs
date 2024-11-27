@@ -10,35 +10,45 @@ namespace ChattingApplication.DataAccess.Repository
 
     public class GroupRepository : IGroupRepository
     {
-        private readonly List<Models.Group> _groups = new List<Group>();
+        private readonly ApplicationDBContext _db;
+
+        public GroupRepository(ApplicationDBContext db)
+        {
+            _db = db;
+        }
 
         // Get a group by its ID
         public async Task<Group?> GetGroupByIdAsync(string id)
         {
-            return await Task.FromResult(_groups.FirstOrDefault(g => g.id == id));
+            return await Task.FromResult(_db.Groups.FirstOrDefault(g => g.id == id));
         }
 
         // Get all groups
         public async Task<List<Group>> GetAllGroupsAsync()
         {
-            return await Task.FromResult(_groups);
+            return _db.Groups.ToList();
         }
 
         // Create a new group
-        public async Task CreateGroupAsync(string groupName)
+        public async Task<Group> CreateGroupAsync(Group group)
         {
-            Group group = new Group();
-            // Assuming that GroupId is assigned by the client or elsewhere, otherwise generate it here
-            group.id = groupName;
-            group.createdAt = DateTime.Now;
-            _groups.Add(group);
-            await Task.CompletedTask;
+            try
+            {
+                _db.Groups.Add(group);
+                await _db.SaveChangesAsync();
+                return group;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         // Update an existing group
         public async Task UpdateGroupAsync(Group group)
         {
-            var existingGroup = _groups.FirstOrDefault(g => g.id == group.id);
+            var existingGroup = _db.Groups.FirstOrDefault(g => g.id == group.id);
             if (existingGroup != null)
             {
                 existingGroup.groupName = group.groupName;
@@ -48,19 +58,21 @@ namespace ChattingApplication.DataAccess.Repository
                 existingGroup.createdBy = group.createdBy;
                 existingGroup.lastMessage = group.lastMessage;
                 existingGroup.lastMessageTimestamp = group.lastMessageTimestamp;
-                existingGroup.isTyping = group.isTyping;
+                //existingGroup.isTyping = group.isTyping;
                 existingGroup.groupAvatar = group.groupAvatar;
             }
+            _db.SaveChanges();
             await Task.CompletedTask;
         }
 
         // Delete a group
         public async Task DeleteGroupAsync(string id)
         {
-            var groupToRemove = _groups.FirstOrDefault(g => g.id == id);
+            var groupToRemove = _db.Groups.FirstOrDefault(g => g.id == id);
             if (groupToRemove != null)
             {
-                _groups.Remove(groupToRemove);
+                _db.Remove(groupToRemove);
+                _db.SaveChanges();
             }
             await Task.CompletedTask;
         }
@@ -70,7 +82,7 @@ namespace ChattingApplication.DataAccess.Repository
     {
         Task<Group?> GetGroupByIdAsync(string id);
         Task<List<Group>> GetAllGroupsAsync();
-        Task CreateGroupAsync(string groupName);
+        Task<Group> CreateGroupAsync(Group group);
         Task UpdateGroupAsync(Group group);
         Task DeleteGroupAsync(string id);
     }

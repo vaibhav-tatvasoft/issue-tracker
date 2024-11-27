@@ -17,5 +17,27 @@ namespace ChattingApplication.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Message> Messages { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.members)
+                .WithMany(g => g.groups);
+
+            modelBuilder.Entity<Group>()
+                .HasOne(g => g.createdByUser)
+                .WithMany()
+                .HasForeignKey(g => g.createdBy);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(g => g.fromUser)
+                .WithMany(g => g.receivedMessages)
+                .HasForeignKey(g => g.from);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(g => g.toUser)
+                .WithMany(g => g.sentMessages)
+                .HasForeignKey(g => g.to);
+        }
     }
 }

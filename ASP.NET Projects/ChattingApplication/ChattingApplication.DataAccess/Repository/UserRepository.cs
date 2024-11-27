@@ -1,4 +1,5 @@
 ﻿using ChattingApplication.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,16 +32,16 @@ namespace ChattingApplication.DataAccess.Repository
 
         public IQueryable<User> GetAllUsers()
         {
-            IQueryable<User> query = _db.Set<User>();
+            IQueryable<User> query = _db.Set<User>().AsNoTracking();
             return query;
         }
 
         public User GetUser(Expression<Func<User, bool>> filter)
         {
-            IQueryable<User> query = _db.Set<User>();
+            IQueryable<User> query = _db.Set<User>().AsNoTracking();
             if (filter != null)
             {
-                query = query.Where(filter);
+                query = query.Where(filter).Include("groups");
             }
 
             return query.FirstOrDefault();

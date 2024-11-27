@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChattingApplication.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241125091053_addMessage")]
-    partial class addMessage
+    [Migration("20241127065752_recreateAllMigrations")]
+    partial class recreateAllMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,7 @@ namespace ChattingApplication.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("createdBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("groupAvatar")
@@ -62,16 +63,17 @@ namespace ChattingApplication.DataAccess.Migrations
                     b.Property<string>("id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Groupid")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("from")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("groupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("groupName")
                         .IsRequired()
@@ -85,7 +87,7 @@ namespace ChattingApplication.DataAccess.Migrations
 
                     b.Property<string>("to")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("type")
                         .IsRequired()
@@ -93,7 +95,11 @@ namespace ChattingApplication.DataAccess.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Groupid");
+                    b.HasIndex("from");
+
+                    b.HasIndex("groupId");
+
+                    b.HasIndex("to");
 
                     b.ToTable("Messages");
                 });
@@ -101,12 +107,6 @@ namespace ChattingApplication.DataAccess.Migrations
             modelBuilder.Entity("ChattingApplication.Models.User", b =>
                 {
                     b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Groupid")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Groupid1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("email")
@@ -119,47 +119,87 @@ namespace ChattingApplication.DataAccess.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Groupid");
-
-                    b.HasIndex("Groupid1");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("GroupUser", b =>
+                {
+                    b.Property<string>("groupsid")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("membersid")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("groupsid", "membersid");
+
+                    b.HasIndex("membersid");
+
+                    b.ToTable("GroupUser");
                 });
 
             modelBuilder.Entity("ChattingApplication.Models.Group", b =>
                 {
                     b.HasOne("ChattingApplication.Models.User", "createdByUser")
                         .WithMany()
-                        .HasForeignKey("createdBy");
+                        .HasForeignKey("createdBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("createdByUser");
                 });
 
             modelBuilder.Entity("ChattingApplication.Models.Message", b =>
                 {
-                    b.HasOne("ChattingApplication.Models.Group", null)
+                    b.HasOne("ChattingApplication.Models.User", "fromUser")
+                        .WithMany("receivedMessages")
+                        .HasForeignKey("from")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChattingApplication.Models.Group", "group")
                         .WithMany("messages")
-                        .HasForeignKey("Groupid");
+                        .HasForeignKey("groupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChattingApplication.Models.User", "toUser")
+                        .WithMany("sentMessages")
+                        .HasForeignKey("to")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("fromUser");
+
+                    b.Navigation("group");
+
+                    b.Navigation("toUser");
                 });
 
-            modelBuilder.Entity("ChattingApplication.Models.User", b =>
+            modelBuilder.Entity("GroupUser", b =>
                 {
                     b.HasOne("ChattingApplication.Models.Group", null)
-                        .WithMany("isTyping")
-                        .HasForeignKey("Groupid");
+                        .WithMany()
+                        .HasForeignKey("groupsid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("ChattingApplication.Models.Group", null)
-                        .WithMany("members")
-                        .HasForeignKey("Groupid1");
+                    b.HasOne("ChattingApplication.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("membersid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ChattingApplication.Models.Group", b =>
                 {
-                    b.Navigation("isTyping");
-
-                    b.Navigation("members");
-
                     b.Navigation("messages");
+                });
+
+            modelBuilder.Entity("ChattingApplication.Models.User", b =>
+                {
+                    b.Navigation("receivedMessages");
+
+                    b.Navigation("sentMessages");
                 });
 #pragma warning restore 612, 618
         }

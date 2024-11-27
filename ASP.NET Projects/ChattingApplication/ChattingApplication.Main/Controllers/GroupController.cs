@@ -37,7 +37,7 @@ public class GroupController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateGroup([FromBody] string groupName)
     {
-        await _groupService.CreateGroupAsync(groupName);
+        await _groupService.CreateGroupAsync(null,Guid.NewGuid().ToString(), null, groupName);
         return Ok();
     }
 
