@@ -37,7 +37,7 @@ namespace ChattingApplication.Main.Services
                 // Store the connection ID of the client
             ConnectedClients.TryAdd(Context.ConnectionId, user);
 
-            Console.WriteLine($"Client connected: {Context.ConnectionId}");
+             Console.WriteLine($"Client connected: {Context.ConnectionId}");
             Console.WriteLine(ConnectedClients.Count);
             Console.WriteLine(ConnectedClients.ToString);
 
@@ -91,12 +91,15 @@ namespace ChattingApplication.Main.Services
             var orderedGroups = new[] { fromConnectionId, toConnectionId }.OrderBy(u => u).ToArray();
             var groupName = $"Private_{orderedGroups[0]}_{orderedGroups[1]}";
 
-            Console.WriteLine(nameof(StartPrivateChat) + " Group Name " + groupName);
+            Console.WriteLine(nameof(StartPrivateChat) + " Private Chat Name " + groupName);
 
             Groups.AddToGroupAsync(orderedGroups[0], groupName);
             Groups.AddToGroupAsync(orderedGroups[1], groupName);
 
-            GroupsList.Add(groupName);
+            if (!GroupsList.Contains(groupName))
+            {
+                GroupsList.Add(groupName);
+            }
 
             foreach(var group in GroupsList) 
             {
