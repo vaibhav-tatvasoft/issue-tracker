@@ -18,6 +18,7 @@ const SendMessageFooter = () => {
     (state) => state.userSelected.clickedUser || {}
   );
   const {user} = useSelector(state => state.users);
+  const clickedChat = useSelector((state) => state.userSelected);
 
   useEffect(() => {
     console.log(`Outgoing message : ${JSON.stringify(outMessages)}`);
@@ -45,7 +46,7 @@ const SendMessageFooter = () => {
           dispatch(setOutMessage(newMessage));
         }}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && clickedUser.value) {
+          if (e.key === "Enter") {
             dispatch(
               setOutMessages((prevMessages) => [...prevMessages, outMessage])
             );
@@ -54,9 +55,10 @@ const SendMessageFooter = () => {
               id: uuidv4(),
               type: "outgoing",
               content: outMessage,
-              to: clickedUser.value.id,
+              //to: clickedUser.value.id,  
+              to: clickedChat.isGroupChat ? clickedChat.clickedGroupChat.name : clickedUser.value.id,
               from: user.id,
-              groupName,
+              groupName: clickedChat.isGroupChat ? clickedChat.clickedGroupChat.id : groupName,
               timestamp: new Date().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -75,11 +77,13 @@ const SendMessageFooter = () => {
             setOutMessages((prevMessages) => [...prevMessages, outMessage])
           );
           const messageObject = {
+            id: uuidv4(),
             type: "outgoing",
             content: outMessage,
-            to: clickedUser.value,
-            from: userId,
-            groupName,
+            //to: clickedUser.value.id,  
+            to: clickedChat.isGroupChat ? clickedChat.clickedGroupChat.id : clickedUser.value.id,
+            from: user.id,
+            groupName: clickedChat.isGroupChat ? clickedChat.clickedGroupChat.groupName : groupName,
             timestamp: new Date().toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",

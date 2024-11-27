@@ -13,17 +13,17 @@ import {
   setGroupName,
   updateMessage,
 } from "../Slices/MessageSlice";
-import {
-  setCreatedGroupObject
-} from "../Slices/GroupSettingSlice";
+import { setCreatedGroupObject } from "../Slices/GroupSettingSlice";
 import ChatWindow from "./ChatWindow";
 import SendMessageFooter from "./SendMessageFooter";
 
 const SignalR = () => {
   const dispatch = useDispatch();
   const { allMessages, clientData } = useSelector((state) => state.messages);
-  const { clickedUser, prevClickedUser } = useSelector((state) => state.userSelected);
+  const { clickedUser, prevClickedUser, isGroupChat, clickedGroupChat } =
+    useSelector((state) => state.userSelected);
 
+  const clickedChat = useSelector((state) => state.userSelected);
   const clickedUserRef = useRef(clickedUser);
   const { connection, isConnected } = useSignalR();
 
@@ -51,12 +51,19 @@ const SignalR = () => {
 
   useEffect(() => {
     if (isConnected) {
-
-      connection.current.on("ReceiveCreatedGroupObject", (groupObject, userObj) => {
-          console.log("SignalR ~ ReceiveCreatedGroupObject ~ group + userobj: "+ JSON.parse(groupObject)+ " "+ JSON.parse(userObj));
+      connection.current.on(
+        "ReceiveCreatedGroupObject",
+        (groupObject, userObj) => {
+          console.log(
+            "SignalR ~ ReceiveCreatedGroupObject ~ group + userobj: " +
+              JSON.parse(groupObject) +
+              " " +
+              JSON.parse(userObj)
+          );
 
           dispatch(setCreatedGroupObject(groupObject));
-        })
+        }
+      );
 
       connection.current.on("ReceiveAllClientsList", (data) => {
         console.log(
@@ -95,7 +102,7 @@ const SignalR = () => {
         console.log(`Connection ID: ${key}, UserIdentifier: ${value}`);
       });
     }
-  }, [clientData]);
+  }, [clickedChat]);
 
   useEffect(() => {
     console.log(`Incoming message : ${JSON.stringify(inMessages)}`);
@@ -155,9 +162,14 @@ const SignalR = () => {
           <header className="bg-neutral-800 p-4 text-neutral-100 flex items-center border-b border-neutral-700">
             <i className="fa-brands fa-facebook text-teal-400"></i>
             <h1 className="ml-3 font-title font-bold text-lg">
-              {clickedUser && Object.keys(clickedUser).length === 0
+              {/* {(clickedUser && Object.keys(clickedUser).length === 0
                 ? "Select a chat"
-                : clickedUser.value.userName}
+                : clickedUser.value.userName)} */}
+              {clickedChat.isGroupChat
+                ? clickedChat.clickedGroupChat.groupName
+                : Object.keys(clickedUser).length !== 0
+                ? clickedUser.value.userName
+                : "Select a chat"}
             </h1>
           </header>
           <ChatWindow />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedUser, setPrevClickedUser } from "../Slices/UserClickedSlice";
+import { setClickedUser, setPrevClickedUser, setClickedGroupChat, setIsGroupChat, resetUserClickedSlice } from "../Slices/UserClickedSlice";
 import { useSignalR } from "./SignalRProvider";
 import Modal from "react-modal";
 
@@ -23,9 +23,19 @@ const ChatPreview = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleButtonClicked = ({ key, value }) => {
+    
+    dispatch(resetUserClickedSlice())
     dispatch(setPrevClickedUser(clickedUser));
     dispatch(setClickedUser({ key, value }));
+    dispatch(setIsGroupChat(false));
   };
+
+  const handleGroupChatClicked = (groupObj) =>{
+    dispatch(resetUserClickedSlice())
+    dispatch(setClickedGroupChat(groupObj));
+    dispatch(setIsGroupChat(true));
+    console.log("ChatPreview.jsx ~ handleGroupChatClicked ~ groupObj: " + JSON.stringify(groupObj));
+  }
 
   function handleUserSelectionForModal(key) {
     setUserChecked((prevState) => {
@@ -80,9 +90,6 @@ const ChatPreview = () => {
 
       {/* Chat List */}
       <div className="overflow-y-auto flex-1 space-y-0">
-        {" "}
-        {/* Removed extra space between items */}
-        {/* Individual Chats */}
         <div>
           {Object.entries(clientData).map(([key, value]) => (
             <div
@@ -138,6 +145,7 @@ const ChatPreview = () => {
             </div>
           ))}
         </div>
+
         {/* Group Chats */}
         <div>
           {user.groups &&
@@ -146,6 +154,7 @@ const ChatPreview = () => {
                 <div
                   key={index}
                   className="px-5 py-4 hover:bg-neutral-700 flex items-center gap-5 relative cursor-pointer transition duration-300 ease-in-out"
+                  onClick={() => handleGroupChatClicked(Object)}
                 >
                   <div className="relative w-[70px] h-[70px]">
                     <img
