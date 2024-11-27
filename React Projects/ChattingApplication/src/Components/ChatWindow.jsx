@@ -20,7 +20,7 @@ const Message = () => {
   {allMessages
     .filter(
       (object) =>
-        object.from === clickedUser.value || object.to === clickedUser.value
+        clickedUser.value && (object.from === clickedUser.value.id || object.to === clickedUser.value.id)
     )
     .map((object, index) => {
       return (

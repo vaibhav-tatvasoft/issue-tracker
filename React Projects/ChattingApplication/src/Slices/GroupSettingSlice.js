@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     isUserSelectionEnabled : false,
-    isCreateGroupButtonEnabled : false
+    isCreateGroupButtonEnabled : false,
+    createdGroupObject : {}
 }
 
 export const GroupSettingSlice = createSlice({
@@ -14,9 +15,12 @@ export const GroupSettingSlice = createSlice({
         },
         setIsCreateGroupButtonEnabled(state, action){
             state.isCreateGroupButtonEnabled = action.payload
+        },
+        setCreatedGroupObject(state, action){
+            state.createdGroupObject = action.payload
         }
     }
 });
 
-export const {setIsCreateGroupButtonEnabled, setIsUserSelectionEnabled} = GroupSettingSlice.actions;
+export const {setIsCreateGroupButtonEnabled, setIsUserSelectionEnabled, setCreatedGroupObject} = GroupSettingSlice.actions;
 export default GroupSettingSlice.reducer;

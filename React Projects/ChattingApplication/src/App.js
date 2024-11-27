@@ -14,10 +14,9 @@ export default function App () {
     <div>
       <Routes>
         <Route path="/createGroup" element={<CreateGroup />} />
-        <Route path="/auth" element={<UserRegistration />} />
+        <Route path="/" element={<UserRegistration />} />
         <Route path="/SignalRProvider" element={<SignalRProvider />} />
       </Routes>
-      <UserRegistration />
       {/* <SignalRProvider>
         <SignalR />
       </SignalRProvider> */}

@@ -13,15 +13,16 @@ import {
   setGroupName,
   updateMessage,
 } from "../Slices/MessageSlice";
+import {
+  setCreatedGroupObject
+} from "../Slices/GroupSettingSlice";
 import ChatWindow from "./ChatWindow";
 import SendMessageFooter from "./SendMessageFooter";
 
 const SignalR = () => {
   const dispatch = useDispatch();
   const { allMessages, clientData } = useSelector((state) => state.messages);
-  const { clickedUser, prevClickedUser } = useSelector(
-    (state) => state.userSelected
-  );
+  const { clickedUser, prevClickedUser } = useSelector((state) => state.userSelected);
 
   const clickedUserRef = useRef(clickedUser);
   const { connection, isConnected } = useSignalR();
@@ -50,6 +51,13 @@ const SignalR = () => {
 
   useEffect(() => {
     if (isConnected) {
+
+      connection.current.on("ReceiveCreatedGroupObject", (groupObject, userObj) => {
+          console.log("SignalR ~ ReceiveCreatedGroupObject ~ group + userobj: "+ JSON.parse(groupObject)+ " "+ JSON.parse(userObj));
+
+          dispatch(setCreatedGroupObject(groupObject));
+        })
+
       connection.current.on("ReceiveAllClientsList", (data) => {
         console.log(
           "🚀 ~ connection.on ReceiveAllClientsList ~ data:",

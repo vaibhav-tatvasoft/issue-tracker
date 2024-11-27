@@ -54,8 +54,8 @@ const SendMessageFooter = () => {
               id: uuidv4(),
               type: "outgoing",
               content: outMessage,
-              to: clickedUser.value,
-              from: user.userName,
+              to: clickedUser.value.id,
+              from: user.id,
               groupName,
               timestamp: new Date().toLocaleTimeString([], {
                 hour: "2-digit",
