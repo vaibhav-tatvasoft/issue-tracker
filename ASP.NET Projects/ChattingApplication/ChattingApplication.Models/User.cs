@@ -16,6 +16,8 @@ namespace ChattingApplication.Models
         public string email { get; set; }
         public ICollection<Message> sentMessages { get; set; }
         public ICollection<Message> receivedMessages { get; set; }
-        public ICollection<Group> groups { get; set; }
+        //public List<Group> groups { get; set; }
+
+        public List<Group> groups { get; set; }
     }
 }

@@ -14,16 +14,16 @@ public class GroupController : ControllerBase
     }
 
     // GET api/group/{id}
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Group>> GetGroupById(string id)
-    {
-        var group = await _groupService.GetGroupByIdAsync(id);
-        if (group == null)
-        {
-            return NotFound();
-        }
-        return Ok(group);
-    }
+    //[HttpGet("{id}")]
+    //public async Task<ActionResult<Group>> GetGroupById(string id)
+    //{
+    //    var group = await _groupService.GetGroupAsync(id);
+    //    if (group == null)
+    //    {
+    //        return NotFound();
+    //    }
+    //    return Ok(group);
+    //}
 
     // GET api/group
     [HttpGet]

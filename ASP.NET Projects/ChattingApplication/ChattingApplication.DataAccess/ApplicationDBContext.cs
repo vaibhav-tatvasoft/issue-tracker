@@ -20,9 +20,6 @@ namespace ChattingApplication.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Group>()
-                .HasMany(g => g.members)
-                .WithMany(g => g.groups);
 
             modelBuilder.Entity<Group>()
                 .HasOne(g => g.createdByUser)

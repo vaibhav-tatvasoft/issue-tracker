@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ChattingApplication.DataAccess.Migrations
 {
-    public partial class recreateAllMigrations : Migration
+    public partial class modification : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,7 +28,7 @@ namespace ChattingApplication.DataAccess.Migrations
                 {
                     id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     groupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    groupDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    groupId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     createdBy = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     createdAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     lastMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -43,7 +43,7 @@ namespace ChattingApplication.DataAccess.Migrations
                         column: x => x.createdBy,
                         principalTable: "Users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,13 +61,13 @@ namespace ChattingApplication.DataAccess.Migrations
                         column: x => x.groupsid,
                         principalTable: "Groups",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GroupUser_Users_membersid",
                         column: x => x.membersid,
                         principalTable: "Users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,19 +92,19 @@ namespace ChattingApplication.DataAccess.Migrations
                         column: x => x.groupId,
                         principalTable: "Groups",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Messages_Users_from",
                         column: x => x.from,
                         principalTable: "Users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Messages_Users_to",
                         column: x => x.to,
                         principalTable: "Users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

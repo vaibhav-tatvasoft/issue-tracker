@@ -37,7 +37,7 @@ namespace ChattingApplication.DataAccess.Migrations
                     b.Property<string>("groupAvatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("groupDescription")
+                    b.Property<string>("groupId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("groupName")

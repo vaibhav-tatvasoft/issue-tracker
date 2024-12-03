@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChattingApplication.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241127065752_recreateAllMigrations")]
-    partial class recreateAllMigrations
+    [Migration("20241203074704_modification")]
+    partial class modification
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace ChattingApplication.DataAccess.Migrations
                     b.Property<string>("groupAvatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("groupDescription")
+                    b.Property<string>("groupId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("groupName")

@@ -30,35 +30,39 @@ namespace ChattingApplication.DataAccess.Repository
             _db.SaveChanges();
         }
 
-        public IQueryable<User> GetAllUsers()
+        public IQueryable<User> GetAllUsers(Expression<Func<User, bool>> filter)
         {
-            IQueryable<User> query = _db.Set<User>().AsNoTracking();
+            IQueryable<User> query = _db.Set<User>();
+            if (filter != null)
+            {
+                query = query.Where(filter).Include(u => u.groups).AsNoTracking();
+            }
             return query;
         }
 
-        public User GetUser(Expression<Func<User, bool>> filter)
+        public async Task<User> GetUser(Expression<Func<User, bool>> filter)
         {
-            IQueryable<User> query = _db.Set<User>().AsNoTracking();
+            IQueryable<User> query = _db.Set<User>();
             if (filter != null)
             {
-                query = query.Where(filter).Include("groups");
+                query = query.Where(filter).Include(u => u.groups);
             }
 
-            return query.FirstOrDefault();
+            return await query.AsNoTracking().FirstOrDefaultAsync();
         }
 
         public void UpdateUser(User user)
         {
             _db.Users.Update(user);
-            _db.SaveChanges();
+            //_db.SaveChanges();
         }
     }
 
     public interface IUserRepository
     {
         public void AddUser(User user);
-        public IQueryable<User> GetAllUsers();
-        public User GetUser(Expression<Func<User, bool>> filter);
+        public IQueryable<User> GetAllUsers(Expression<Func<User, bool>> filter);
+        public Task<User> GetUser(Expression<Func<User, bool>> filter);
         public void UpdateUser(User user);
         public void DeleteUser(User user);
     }

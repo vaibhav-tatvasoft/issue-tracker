@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -17,13 +20,15 @@ namespace ChattingApplication.Main.Services
         private static ConcurrentDictionary<string, User> ConnectedClients = new ConcurrentDictionary<string, User>();
         private static ConcurrentBag<string> GroupsList = new ConcurrentBag<string>();
         private readonly GroupService _groupService;
+        private readonly IUserRepository _userRepository;
         private readonly ApplicationDBContext _db;
         private User user;
 
-        public RealTimeHub(GroupService groupService, ApplicationDBContext db)
+        public RealTimeHub(GroupService groupService, ApplicationDBContext db, IUserRepository userRepository)
         {
             _groupService = groupService;
             _db = db;
+            _userRepository = userRepository;
         }
 
         public override Task OnConnectedAsync()
@@ -89,16 +94,16 @@ namespace ChattingApplication.Main.Services
         public async Task StartPrivateChat(string fromConnectionId, string toConnectionId)
         {
             var orderedGroups = new[] { fromConnectionId, toConnectionId }.OrderBy(u => u).ToArray();
-            var groupName = $"Private_{orderedGroups[0]}_{orderedGroups[1]}";
+            var privateChatName = $"Private_{orderedGroups[0]}_{orderedGroups[1]}";
 
-            Console.WriteLine(nameof(StartPrivateChat) + " Private Chat Name " + groupName);
+            Console.WriteLine(nameof(StartPrivateChat) + " Private Chat Name " + privateChatName);
 
-            Groups.AddToGroupAsync(orderedGroups[0], groupName);
-            Groups.AddToGroupAsync(orderedGroups[1], groupName);
+            Groups.AddToGroupAsync(orderedGroups[0], privateChatName);
+            Groups.AddToGroupAsync(orderedGroups[1], privateChatName);
 
-            if (!GroupsList.Contains(groupName))
+            if (!GroupsList.Contains(privateChatName))
             {
-                GroupsList.Add(groupName);
+                GroupsList.Add(privateChatName);
             }
 
             foreach(var group in GroupsList) 
@@ -106,7 +111,7 @@ namespace ChattingApplication.Main.Services
                 Console.WriteLine(nameof(StartPrivateChat) + " Groups List " + group);
             }
 
-            Clients.Caller.SendAsync("ReceiveGroupName", groupName);
+            Clients.Caller.SendAsync("ReceiveGroupName", privateChatName);
         }
 
         public async Task StartGroupChat(Object fromUserObject, Object groupOfUsers, string groupName)
@@ -116,45 +121,66 @@ namespace ChattingApplication.Main.Services
                 var options = new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.Preserve, // This handles cycles
-                    MaxDepth = 64, // Optional: Can limit depth to avoid too deep object graphs
+                    MaxDepth = 3, // Optional: Can limit depth to avoid too deep object graphs
                 };
 
                 var userObj = JsonSerializer.Deserialize<User>(fromUserObject.ToString(), options);
+                var groupOfUsersObj = JsonSerializer.Deserialize<List<string>>(groupOfUsers.ToString(), options);
 
                 var ConnectedClientsIdsOfUsers = ConnectedClients.Select(x => x.Value.id).ToList();
 
-                var orderedGroups = ConnectedClientsIdsOfUsers.OrderBy(u => u).ToArray();
-                var groupId = "Group_" + string.Join("_", orderedGroups);
+                var ConnectedClientsConnectionIdOfGroupUsers = ConnectedClients.Where(u => groupOfUsersObj.Contains(u.Key)).Select(u => u.Key).ToArray();
+
+                var orderedGroupsOfIds = ConnectedClientsIdsOfUsers.OrderBy(u => u).ToArray();
+
+                var groupId = "Group";
+
+                foreach (var id in orderedGroupsOfIds)
+                {
+                    groupId += "_" + id;
+                }
 
                 Console.WriteLine("groupName is : " + groupId);
 
-                foreach (var user in orderedGroups)
+                foreach (var connectionId in ConnectedClientsConnectionIdOfGroupUsers)
                 {
-                    await Groups.AddToGroupAsync(user, groupId);
+                    await Groups.AddToGroupAsync(connectionId, groupId);
                 }
 
-                List<User> groupMembers = _db.Users.Where(u => ConnectedClientsIdsOfUsers.Contains(u.id)).ToList();
+                var response = await _groupService.GetGroupAsync(u => u.groupId == groupId);
 
-                var response = await _groupService.GetGroupByIdAsync(groupId);
-
-                if (response == null)
+                if (response == null || response.groupName != groupName)
                 {
-                    response = await _groupService.CreateGroupAsync(userObj, groupId, groupMembers, groupName);
+                    response = await _groupService.CreateGroupAsync(userObj, groupId, ConnectedClientsIdsOfUsers, groupName);
                 }
 
-                var serializedJsonCallerUser = JsonSerializer.Serialize(userObj, options);
+                //fetch all the members from group for bulk send to react
+                //from group, see which all ids are mapped ----- or take the groupMembers string and retrieve those users
+                //those will be updated users having this new group in them, sounnds good??
+                var uid = new List<string>();
+
+                List<User> members = _db.Users.Where(u => ConnectedClientsIdsOfUsers.Contains(u.id)).ToList();
+
+                 //user = await _userRepository.GetUser(u => u.id == userObj.id);
+
                 var serializedJsonGroup = JsonSerializer.Serialize(response, options);
+                //var serializedJsonCallerUser = JsonSerializer.Serialize(user, options);
 
-                SendCreatedGroupObject(serializedJsonGroup, serializedJsonCallerUser);
+                SendCreatedGroupObject(serializedJsonGroup, members, groupId);
             }
         }
 
-        public async Task SendCreatedGroupObject(string group, string callerUser)
+        public async Task SendCreatedGroupObject(string group, List<User> members, string groupId)
         {
 
-
-            Clients.Caller.SendAsync("ReceiveCreatedGroupObject", group, callerUser);
+            Clients.Group(groupId).SendAsync("ReceiveCreatedGroupObject", group, members);
         }
+
+        //private string createTemporaryGroupToSendGroupDetailsToAllMembers(List<User> members, string groupId)
+        //{
+        //    Clients.Group(groupId).SendAsync(members)
+        //}
+
 
     }
 }

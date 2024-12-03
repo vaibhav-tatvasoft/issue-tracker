@@ -1,9 +1,11 @@
 ﻿
 namespace ChattingApplication.DataAccess.Repository
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Group = ChattingApplication.Models.Group;
@@ -18,9 +20,10 @@ namespace ChattingApplication.DataAccess.Repository
         }
 
         // Get a group by its ID
-        public async Task<Group?> GetGroupByIdAsync(string id)
+        public async Task<Group?> GetGroupAsync(Expression<Func<Group, bool>> filter)
         {
-            return await Task.FromResult(_db.Groups.FirstOrDefault(g => g.id == id));
+            var query = _db.Set<Group>();
+            return query.Where(filter).FirstOrDefault();
         }
 
         // Get all groups
@@ -52,8 +55,8 @@ namespace ChattingApplication.DataAccess.Repository
             if (existingGroup != null)
             {
                 existingGroup.groupName = group.groupName;
-                existingGroup.groupDescription = group.groupDescription;
-                existingGroup.members = group.members;
+                existingGroup.groupId = group.groupId;
+                //existingGroup.membersIds = group.membersIds;
                 existingGroup.messages = group.messages;
                 existingGroup.createdBy = group.createdBy;
                 existingGroup.lastMessage = group.lastMessage;
@@ -80,7 +83,7 @@ namespace ChattingApplication.DataAccess.Repository
 
     public interface IGroupRepository
     {
-        Task<Group?> GetGroupByIdAsync(string id);
+        Task<Group?> GetGroupAsync(Expression<Func<Group, bool>> filter);
         Task<List<Group>> GetAllGroupsAsync();
         Task<Group> CreateGroupAsync(Group group);
         Task UpdateGroupAsync(Group group);

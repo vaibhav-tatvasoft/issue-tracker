@@ -20,27 +20,27 @@ namespace ChattingApplication.Controllers
         }
 
         // GET: api/User
-        [HttpGet]
-        public IActionResult GetAllUsers()
-        {
-            try
-            {
-                var users = _userRepository.GetAllUsers().ToList();
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllUsers()
+        //{
+        //    try
+        //    {
+        //        var users = _userRepository.GetAllUsers().ToList();
+        //        return Ok(users);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
 
         // GET: api/User/{id}
         [HttpGet("{id}")]
-        public IActionResult GetUser(string id)
+        public async Task<IActionResult> GetUser(string id)
         {
             try
             {
-                var user = _userRepository.GetUser(u => u.id == id);
+                var user = await _userRepository.GetUser(u => u.id == id);
                 if (user == null)
                     return NotFound($"User with ID {id} not found.");
 
@@ -54,14 +54,15 @@ namespace ChattingApplication.Controllers
 
         // POST: api/User
         [HttpPost]
-        public IActionResult AddUser([FromBody] Object user)
+        public async Task<IActionResult> AddUser([FromBody] Object user)
         {
             try
             {
                 if (user == null)
                     return BadRequest("User object is null.");
+
                 User userObject = JsonSerializer.Deserialize<User>(user.ToString());
-                var result = _userRepository.GetUser(u => u.email == userObject.email);
+                var result = await _userRepository.GetUser(u => u.email == userObject.email);
                 if(result == null)
                 {
                     userObject.id = Guid.NewGuid().ToString();
@@ -78,14 +79,14 @@ namespace ChattingApplication.Controllers
 
         // PUT: api/User/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(string id, [FromBody] User updatedUser)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] User updatedUser)
         {
             try
             {
                 if (updatedUser == null || updatedUser.id != id)
                     return BadRequest("User object is null or IDs do not match.");
 
-                var existingUser = _userRepository.GetUser(u => u.id == id);
+                var existingUser = await _userRepository.GetUser(u => u.id == id);
                 if (existingUser == null)
                     return NotFound($"User with ID {id} not found.");
 
@@ -100,11 +101,11 @@ namespace ChattingApplication.Controllers
 
         // DELETE: api/User/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
-                var user = _userRepository.GetUser(u => u.id == id);
+                var user = await _userRepository.GetUser(u => u.id == id);
                 if (user == null)
                     return NotFound($"User with ID {id} not found.");
 
